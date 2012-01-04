@@ -10,7 +10,6 @@ TARGET = mbica
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += mbica.cpp \
-    main.cpp
+SOURCES += mbica.cpp
 
 HEADERS += mbica.h
