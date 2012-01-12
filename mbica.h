@@ -111,7 +111,7 @@ namespace mbica {
                 B_old = B;
                 double k = 1.0 / X.n_cols;
                 arma::mat Y = X.t() * B;
-                B = k * (X * UsedFunc::G(Y) - arma::repmat(arma::sum(UsedFunc::dG(Y)), X.n_rows, 1));
+                B = k * X * UsedFunc::G(Y) - k * arma::repmat(arma::sum(UsedFunc::dG(Y)), X.n_rows, 1) % B;
 
             }
 
