@@ -32,11 +32,9 @@ namespace mbica {
         return E * sqrt(diagmat(D)) * inv(E);
     }
 
-    template<int mu = 1, class UsedFunc = Pow3>
-    class FastICA {
+    class PCA {
     public:
-
-        void PCA(const arma::mat &X, arma::mat &E, arma::vec &D) {
+        void operator()(const arma::mat &X, arma::mat &E, arma::vec &D) {
             mat C = cov(X.t());
 
             eig_sym(D, E, C);
@@ -53,31 +51,45 @@ namespace mbica {
 
             // TODO: sprawdzic, czy nie potrzebna jest transpozycja E - wszak transponujemy na poczatku X
         }
+    };
 
+    class Whitening {
+    public:
         // E - eigenvec from PCA
         // D - vector with eigenvalues from PCA
-        void whitening(const arma::mat &E, const arma::vec &D,
-                            arma::mat &Wh, arma::mat &dWh) {
+        void operator()(const arma::mat &E, const arma::vec &D,
+                        arma::mat &Wh, arma::mat &dWh) {
             mat sqrtD = sqrt(diagmat(D));
             Wh = inv(sqrtD) * E.t();
             dWh = E * sqrtD;
         }
+    };
 
+    template<int mu = 1, class UsedFunc = Pow3>
+    class FastICA {
+    public:
+        FastICA()
+            : whiteningMatrixSetted_(false) {}
+
+        FastICA(mat Wh, mat dWh) {
+            setWhiteningMatrix(Wh, dWh);
+        }
 
         //  tu w jakis posob trzeba umozliwic podanie guess, whitening i dewhitenign matrix
-        arma::mat count(arma::mat X, int nIC = -1) {
+        arma::mat operator()(arma::mat X, int nIC = -1) {
             double epsilon = 0.1;
             //nIC == -1 means the same size it's now.
             if(nIC == -1) {
                 nIC = X.n_rows;
             }
 
-            mat dWh, Wh, E;
-            vec D;
+            if(!whiteningMatrixSetted_) {
+                mat E;
+                vec D;
 
-            // to możemy zrobić raz i w jakiś sposów podać
-            PCA(X, E, D);
-            whitening(E ,D, Wh, dWh);
+                PCA()(X, E, D);
+                Whitening()(E ,D, Wh_, dWh_);
+            }
 
             // Tu whitening (ktory zawiera w sobie PCA)
             mat A = zeros<mat>(X.n_rows, nIC);
@@ -89,7 +101,7 @@ namespace mbica {
             int max_iterations = 1000, i;
 
             // main loop (easiest way - no stabilization, nor fine-tunung)
-            for(i=0; i < max_iterations; ++i) {
+            for(i = 0; i < max_iterations; ++i) {
                 B = B * arma::real(matSqrt(arma::inv(B.t() * B)));
 
                 arma::mat minAbsCos = arma::min(arma::abs(arma::diagmat(B.t() * B_old)));
@@ -106,10 +118,25 @@ namespace mbica {
             if(i == max_iterations) {
                 // return empty A and W
             }
-            A = dWh * B;
-            W = B.t() * Wh;
+            A = dWh_ * B;
+            W = B.t() * Wh_;
+
+            // TODO: returnung std::pair, or maybe by references in parameter list?
             return A, W;
         }
+
+        void setWhiteningMatrix(mat Wh, mat dWh) {
+            whiteningMatrixSetted_ = (dWh != 0 && Wh != 0);
+            if(whiteningMatrixSetted_){
+                dWh_ = dWh;
+                Wh_ = Wh;
+            }
+        }
+
+    private:
+        bool whiteningMatrixSetted_;
+        mat dWh_;
+        mat Wh_;
     };
 }
 #endif // MBICA_H
