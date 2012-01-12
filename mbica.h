@@ -3,6 +3,9 @@
 
 #include <armadillo>
 
+//will move to cpp in future
+using namespace arma;
+
 namespace mbica {
 
     class Mbica {
@@ -21,26 +24,47 @@ namespace mbica {
         }
     };
 
-    class PCA {
-    public:
-        static arma::mat process(arma::mat X) {
-            // Placeholder to count PCA
-            return arma::mat();
-        }
-    };
+    arma::mat matSqrt(const arma:: mat &X) {
+        vec D;
+        mat E;
+        eig_sym(D, E, X);
 
-    class Whitenig {
-        static arma::mat process(arma::mat X) {
-            // Placeholder to count PCA and whitening
-            return arma::mat();
-        }
+        return E * sqrt(diagmat(D)) * inv(E);
+    }
 
-    };
-
-    template<int mu = 1, class Preprocess = Whitening, class UsedFunc = Pow3>
+    template<int mu = 1, class UsedFunc = Pow3>
     class FastICA {
     public:
 
+        void PCA(const arma::mat &X, arma::mat &E, arma::vec &D) {
+            mat C = cov(X.t());
+
+            eig_sym(D, E, C);
+
+            int stopIx = D.n_elem, startIx=0;
+            for(; stopIx > 0 && D[stopIx-1] == 0; --stopIx);
+            for(; startIx < D.n_elem && D[startIx] == 0; ++startIx);
+
+            if(stopIx != D.n_elem || startIx != 0) {
+                D = D.subvec(startIx, stopIx-1);
+                // TODO: trzeba sprawdzic, czy eigenvectory w wierszach, czy kolumnach
+                E = E.cols(startIx, stopIx-1);
+            }
+
+            // TODO: sprawdzic, czy nie potrzebna jest transpozycja E - wszak transponujemy na poczatku X
+        }
+
+        // E - eigenvec from PCA
+        // D - vector with eigenvalues from PCA
+        void whitening(const arma::mat &E, const arma::vec &D,
+                            arma::mat &Wh, arma::mat &dWh) {
+            mat sqrtD = sqrt(diagmat(D));
+            Wh = inv(sqrtD) * E.t();
+            dWh = E * sqrtD;
+        }
+
+
+        //  tu w jakis posob trzeba umozliwic podanie guess, whitening i dewhitenign matrix
         arma::mat count(arma::mat X, int nIC = -1) {
             double epsilon = 0.1;
             //nIC == -1 means the same size it's now.
@@ -48,20 +72,25 @@ namespace mbica {
                 nIC = X.n_rows;
             }
 
-            X = Preprocess::process(X);
+            mat dWh, Wh, E;
+            vec D;
+
+            // to możemy zrobić raz i w jakiś sposów podać
+            PCA(X, E, D);
+            whitening(E ,D, Wh, dWh);
+
             // Tu whitening (ktory zawiera w sobie PCA)
-            arma::mat A = zeros<mat>(X.n_rows, nIC);
+            mat A = zeros<mat>(X.n_rows, nIC);
             // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
             // B = whiteningMatrix * guess;
             // orth z octave - musimy coś wymyslić
-            arma::mat B = arma::orth(randu<mat>(X.n_rows, nIC) - 0.5),
+            mat B = arma::orth(randu<mat>(X.n_rows, nIC) - 0.5),
                 B_old = arma::zeros<mat>(X.n_rows, nIC);
             int max_iterations = 1000, i;
 
-            // main loop (easiest way)
+            // main loop (easiest way - no stabilization, nor fine-tunung)
             for(i=0; i < max_iterations; ++i) {
-                // tu trzeba znalezc sposob na znalezienie sqare roota z B
-                B = B * arma::real(arma::inv(B.t() * B)^0.5);
+                B = B * arma::real(matSqrt(arma::inv(B.t() * B)));
 
                 arma::mat minAbsCos = arma::min(arma::abs(arma::diagmat(B.t() * B_old)));
                 if( 1 - minAbsCos < epsilon) {
@@ -77,8 +106,8 @@ namespace mbica {
             if(i == max_iterations) {
                 // return empty A and W
             }
-            A = dewhiteningMatrix * B;
-            W = B.t() * whiteningMatrix;
+            A = dWh * B;
+            W = B.t() * Wh;
             return A, W;
         }
     };
