@@ -91,7 +91,7 @@ namespace mbica {
     class FastICA {
     public:
         FastICA()
-            : whiteningMatrixSetted_(false) {}
+            : whiteningMatrixIsSet_(false) {}
 
         FastICA(mat Wh, mat dWh) {
             setWhiteningMatrix(Wh, dWh);
@@ -105,7 +105,7 @@ namespace mbica {
                 nIC = X.n_rows;
             }
 
-            if(!whiteningMatrixSetted_) {
+            if(!whiteningMatrixIsSet_) {
                 mat E;
                 vec D;
 
@@ -148,15 +148,15 @@ namespace mbica {
         }
 
         void setWhiteningMatrix(mat Wh, mat dWh) {
-            whiteningMatrixSetted_ = (dWh != 0 && Wh != 0);
-            if(whiteningMatrixSetted_){
+            whiteningMatrixIsSet_ = (dWh != 0 && Wh != 0);
+            if(whiteningMatrixIsSet_){
                 dWh_ = dWh;
                 Wh_ = Wh;
             }
         }
 
     private:
-        bool whiteningMatrixSetted_;
+        bool whiteningMatrixIsSet_;
         mat dWh_;
         mat Wh_;
     };
