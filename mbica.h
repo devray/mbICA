@@ -11,16 +11,55 @@ namespace mbica {
     const double DEF_EPSILON = 0.0001;
     const int DEF_MAX_ITER = 10000;
 
-    class Pow3 {
-    public:
-        static arma::mat G(arma::mat X) {
-            return arma::pow(X, 3);
-        }
+    namespace nonlinearities {
+        class Nonlinearity {
+        public:
+            arma::mat G() {
+                return g_;
+            }
 
-        static arma::mat dG(arma::mat X) {
-            return 3*arma::pow(X, 2);
-        }
-    };
+            arma::mat dG() {
+                return dg_;
+            }
+
+        protected:
+            Nonlinearity();
+
+        protected:
+            arma::mat g_;
+            arma::mat dg_;
+        };
+
+        template<int a>
+        class Pow: public Nonlinearity{
+        public:
+            Pow(arma::mat X){
+                g_ = arma::pow(X, a);
+                dg_ = a*arma::pow(X, a-1);
+            }
+        };
+
+        template<int a, int b>
+        class TanH: public Nonlinearity{
+            TanH(arma::mat X){
+                double c = double(a)/b;
+                g_ = arma::tanh(c*X);
+                dg_ = c*(1 - pow(g_, 2));
+            }
+        };
+
+        template<int a, int b>
+        class Gauss: public Nonlinearity{
+            TanH(arma::mat X){
+                double c = double(a)/b;
+                g_ = X * arma::exp(-0.5*c*arma::pow(X, 2));
+                dg_ = (1-c*arma::pow(X, 2))*g_;
+            }
+        };
+
+        typedef Pow<2> Skew;
+    }
+
 
     arma::mat matSqrt(const arma:: mat &X) {
         vec D;
@@ -84,7 +123,7 @@ namespace mbica {
         return U.cols(0,r-1);
     }
 
-    template<int mu = 1, class UsedFunc = Pow3>
+    template<int mu = 1, class UsedNonl = Pow3>
     class FastICA {
     public:
         FastICA(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER)
@@ -131,7 +170,8 @@ namespace mbica {
                 B_old = B;
                 double k = 1.0 / X.n_cols;
                 arma::mat Y = X.t() * B;
-                B = k * X * UsedFunc::G(Y) - k * arma::repmat(arma::sum(UsedFunc::dG(Y)), X.n_rows, 1) % B;
+                UsedNonl used_nonl(Y);
+                B = k * X * used_nonl.G() - k * arma::repmat(arma::sum(used_nonl.dG()), X.n_rows, 1) % B;
 
             }
 
