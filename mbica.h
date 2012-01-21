@@ -8,10 +8,8 @@ using namespace arma;
 
 namespace mbica {
 
-    class Mbica {
-    public:
-        Mbica();
-    };
+    const double DEF_EPSILON = 0.0001;
+    const int DEF_MAX_ITER = 10000;
 
     class Pow3 {
     public:
@@ -84,22 +82,23 @@ namespace mbica {
                 ++r;
 
         return U.cols(0,r-1);
-
     }
 
     template<int mu = 1, class UsedFunc = Pow3>
     class FastICA {
     public:
-        FastICA()
-            : whiteningMatrixIsSet_(false) {}
+        FastICA(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER)
+            : whiteningMatrixIsSet_(false) {
+            init(epsilon, maxIterations);
+        }
 
         FastICA(mat Wh, mat dWh) {
+            init();
             setWhiteningMatrix(Wh, dWh);
         }
 
         //  tu w jakis posob trzeba umozliwic podanie guess, whitening i dewhitenign matrix
-        arma::mat operator()(arma::mat X, int nIC = -1) {
-            double epsilon = 0.1;
+        arma::mat operator()(arma::mat X, int nIC = -1) {            
             //nIC == -1 means the same size it's now.
             if(nIC == -1) {
                 nIC = X.n_rows;
@@ -117,17 +116,16 @@ namespace mbica {
             mat A = zeros<mat>(X.n_rows, nIC);
             // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
             // B = whiteningMatrix * guess;
-            // orth z octave - musimy coś wymyslić
             mat B = orth(randu<mat>(X.n_rows, nIC) - 0.5),
                 B_old = arma::zeros<mat>(X.n_rows, nIC);
-            int max_iterations = 1000, i;
+            int i;
 
             // main loop (easiest way - no stabilization, nor fine-tunung)
-            for(i = 0; i < max_iterations; ++i) {
+            for(i = 0; i < maxIterations_; ++i) {
                 B = B * arma::real(matSqrt(arma::inv(B.t() * B)));
 
                 arma::mat minAbsCos = arma::min(arma::abs(arma::diagmat(B.t() * B_old)));
-                if( 1 - minAbsCos < epsilon) {
+                if( 1 - minAbsCos < epsilon_) {
                     break;
                 }
                 B_old = B;
@@ -137,7 +135,7 @@ namespace mbica {
 
             }
 
-            if(i == max_iterations) {
+            if(i == maxIterations_) {
                 // return empty A and W
             }
             A = dWh_ * B;
@@ -155,10 +153,26 @@ namespace mbica {
             }
         }
 
+        void setEpsilon(double epsilon) {
+            epsilon_ = epsilon;
+        }
+
+        void setMaxIterations(int max) {
+            maxIterations_ = max;
+        }
+
     private:
+
+        void init(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER) {
+            epsilon_ = epsilon;
+            maxIterations_ = maxIterations;
+        }
+
         bool whiteningMatrixIsSet_;
         mat dWh_;
         mat Wh_;
+        double epsilon_;
+        int maxIterations_;
     };
 }
 #endif // MBICA_H
