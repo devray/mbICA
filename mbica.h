@@ -2,8 +2,8 @@
 #define MBICA_H
 
 #include <armadillo>
-#include <nonlinearities.h>
-#include <icaseparator.h>
+#include "nonlinearities.h"
+#include "icaseparator.h"
 
 //will move to cpp in future
 using namespace arma;
@@ -18,7 +18,9 @@ namespace mbica {
         mat E;
         eig_sym(D, E, X);
 
-        return E * sqrt(diagmat(D)) * inv(E);
+        // TODO: Sprawdzic, czy znormalizowane eigenvectory
+
+        return E * diagmat(sqrt(D)) * E.t();
     }
 
     class PCA {
@@ -51,7 +53,7 @@ namespace mbica {
         // D - vector with eigenvalues from PCA
         void operator()(const arma::mat &E, const arma::vec &D,
                         arma::mat &Wh, arma::mat &dWh) {
-            mat sqrtD = sqrt(diagmat(D));
+            mat sqrtD = diagmat(sqrt(D));
             Wh = inv(sqrtD) * E.t();
             dWh = E * sqrtD;
         }
@@ -130,11 +132,8 @@ namespace mbica {
             if(i == maxIterations_) {
                 // return empty A and W
             }
-            A = dWh_ * B;
-            arma::mat W = B.t() * Wh_;
 
-            // TODO: returnung std::pair, or maybe by references in parameter list?
-            return ICASeparator(A, W);
+            return ICASeparator(dWh_ * B, B.t() * Wh_);
         }
 
         void setWhiteningMatrix(mat Wh, mat dWh) {
