@@ -94,7 +94,7 @@ namespace mbica {
 
         //  tu w jakis posob trzeba umozliwic podanie guess, whitening i dewhitenign matrix
 
-        ICASeparator operator()(arma::mat X, int nIC) {
+        ICASeparator operator()(arma::mat X, int nIC = -1) {
             //nIC == -1 means the same size it's now.
             if(nIC == -1) {
                 nIC = X.n_rows;
@@ -148,7 +148,7 @@ namespace mbica {
                 // return empty A and W
             }
 
-            return ICASeparator(dWh_ * B, W = B.t() * Wh_);
+            return ICASeparator(dWh_ * B, B.t() * Wh_);
         }
 
         void setWhiteningMatrix(mat Wh, mat dWh) {
