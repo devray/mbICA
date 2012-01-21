@@ -1,4 +1,4 @@
-#include "mbica.h"
+//#include "mbica.h"
 
-using namespace mbica;
+//using namespace mbica;
 
