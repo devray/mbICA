@@ -1,0 +1,8 @@
+import os
+
+target = 'reader'
+common_libs = Split('usb-1.0 mcrypt epoc m lapack blas')
+
+env = Environment(ENV = os.environ, LIBPATH = ['/usr/lib/'], CXXFLAGS="-O2 -Wall -std=gnu++0x")
+env.Program(target = target, source = Glob('*.cpp'), LIBS = common_libs)
+
