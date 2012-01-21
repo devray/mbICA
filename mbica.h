@@ -2,6 +2,8 @@
 #define MBICA_H
 
 #include <armadillo>
+#include <nonlinearities.h>
+#include <icaseparator.h>
 
 //will move to cpp in future
 using namespace arma;
@@ -10,56 +12,6 @@ namespace mbica {
 
     const double DEF_EPSILON = 0.0001;
     const int DEF_MAX_ITER = 10000;
-
-    namespace nonlinearities {
-        class Nonlinearity {
-        public:
-            arma::mat G() {
-                return g_;
-            }
-
-            arma::mat dG() {
-                return dg_;
-            }
-
-        protected:
-            Nonlinearity();
-
-        protected:
-            arma::mat g_;
-            arma::mat dg_;
-        };
-
-        template<int a>
-        class Pow: public Nonlinearity{
-        public:
-            Pow(arma::mat X){
-                g_ = arma::pow(X, a);
-                dg_ = a*arma::pow(X, a-1);
-            }
-        };
-
-        template<int a, int b>
-        class TanH: public Nonlinearity{
-            TanH(arma::mat X){
-                double c = double(a)/b;
-                g_ = arma::tanh(c*X);
-                dg_ = c*(1 - pow(g_, 2));
-            }
-        };
-
-        template<int a, int b>
-        class Gauss: public Nonlinearity{
-            TanH(arma::mat X){
-                double c = double(a)/b;
-                g_ = X * arma::exp(-0.5*c*arma::pow(X, 2));
-                dg_ = (1-c*arma::pow(X, 2))*g_;
-            }
-        };
-
-        typedef Pow<2> Skew;
-    }
-
 
     arma::mat matSqrt(const arma:: mat &X) {
         vec D;
@@ -123,7 +75,7 @@ namespace mbica {
         return U.cols(0,r-1);
     }
 
-    template<int mu = 1, class UsedNonl = Pow3>
+    template<int mu = 1, class UsedNonl = nonlinearities::Pow<3> >
     class FastICA {
     public:
         FastICA(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER)
@@ -137,7 +89,7 @@ namespace mbica {
         }
 
         //  tu w jakis posob trzeba umozliwic podanie guess, whitening i dewhitenign matrix
-        arma::mat operator()(arma::mat X, int nIC = -1) {            
+        ICASeparator operator()(arma::mat X, int nIC = -1) {
             //nIC == -1 means the same size it's now.
             if(nIC == -1) {
                 nIC = X.n_rows;
@@ -179,18 +131,23 @@ namespace mbica {
                 // return empty A and W
             }
             A = dWh_ * B;
-            W = B.t() * Wh_;
+            arma::mat W = B.t() * Wh_;
 
             // TODO: returnung std::pair, or maybe by references in parameter list?
-            return A, W;
+            return ICASeparator(A, W);
         }
 
         void setWhiteningMatrix(mat Wh, mat dWh) {
-            whiteningMatrixIsSet_ = (dWh != 0 && Wh != 0);
+            //whiteningMatrixIsSet_ = (dWh() != 0 && Wh != 0);
+            whiteningMatrixIsSet_ = true;
             if(whiteningMatrixIsSet_){
                 dWh_ = dWh;
                 Wh_ = Wh;
             }
+        }
+
+        void unsetWhiteningMatrix() {
+            whiteningMatrixIsSet_ = false;
         }
 
         void setEpsilon(double epsilon) {

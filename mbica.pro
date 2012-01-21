@@ -7,6 +7,8 @@ TARGET = mbica
 TEMPLATE = lib
 CONFIG += staticlib
 SOURCES += mbica.cpp \
-    icaseparator.cpp
+    icaseparator.cpp \
+    nonlinearities.cpp
 HEADERS += mbica.h \
-    icaseparator.h
+    icaseparator.h \
+    nonlinearities.h

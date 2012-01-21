@@ -2,6 +2,3 @@
 
 using namespace mbica;
 
-Mbica::Mbica()
-{
-}
