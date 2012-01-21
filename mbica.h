@@ -12,6 +12,7 @@ namespace mbica {
 
     const double DEF_EPSILON = 0.0001;
     const int DEF_MAX_ITER = 10000;
+    const double DEF_MU = 1.0;
 
     arma::mat matSqrt(const arma:: mat &X) {
         vec D;
@@ -43,6 +44,7 @@ namespace mbica {
             // TODO: sprawdzic, czy nie potrzebna jest transpozycja E - wszak transponujemy na poczatku X
             // Od transpozycji tutaj zależałoby tylko czy eigenvectory w wyniku będą wierszach, czy kolumnach
         }
+
     };
 
     class Whitening {
@@ -68,19 +70,19 @@ namespace mbica {
         }
         double tolerance = std::max(A.n_rows,A.n_cols) * math::eps() * max(s);
         int r;
-        for(int i=0; i < s.n_elem; ++i)
+        for(unsigned i=0; i < s.n_elem; ++i)
             if (s[i] > tolerance)
                 ++r;
 
         return U.cols(0,r-1);
     }
 
-    template<int mu = 1, class UsedNonl = nonlinearities::Pow<3> >
+    template<class UsedNonl = nonlinearities::Pow<3> >
     class FastICA {
     public:
-        FastICA(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER)
+        FastICA(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER, double mu = DEF_MU)
             : whiteningMatrixIsSet_(false) {
-            init(epsilon, maxIterations);
+            init(epsilon, maxIterations, mu);
         }
 
         FastICA(mat Wh, mat dWh) {
@@ -108,22 +110,34 @@ namespace mbica {
             // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
             // B = whiteningMatrix * guess;
             mat B = orth(randu<mat>(X.n_rows, nIC) - 0.5),
-                B_old = arma::zeros<mat>(X.n_rows, nIC);
+                B_old = arma::zeros<mat>(X.n_rows, nIC),
+                B_older = arma::zeros<mat>(X.n_rows, nIC);
             int i;
 
-            // main loop (easiest way - no stabilization, nor fine-tunung)
+            // main loop (with stabilization, but no fine-tunung)
             for(i = 0; i < maxIterations_; ++i) {
-                B = B * arma::real(matSqrt(arma::inv(B.t() * B)));
+                B = B * matSqrt(arma::inv(B.t() * B));
 
                 arma::mat minAbsCos = arma::min(arma::abs(arma::diagmat(B.t() * B_old)));
                 if( 1 - minAbsCos < epsilon_) {
                     break;
                 }
+                else if(stabilizationEnabled_)
+                    stabilize(i, B, B_older);
+
+                B_older = B_old;
                 B_old = B;
                 double k = 1.0 / X.n_cols;
                 arma::mat Y = X.t() * B;
-                UsedNonl used_nonl(Y);
-                B = k * X * used_nonl.G() - k * arma::repmat(arma::sum(used_nonl.dG()), X.n_rows, 1) % B;
+                UsedNonl nl(Y);
+                if(mu_==1.0)
+                    B = k * X * nl.G() - k * arma::repmat(arma::sum(nl.dG()), X.n_rows, 1) % B;
+                else{
+                    arma::mat Beta = sum(Y % nl.G());
+                    arma::mat D = diag(1/(Beta-sum(nl.dG())));
+                    B = B + mu_ * B * (Y.t() * nl.G() - diagmat(Beta))* D;
+                }
+
 
             }
 
@@ -133,7 +147,6 @@ namespace mbica {
             A = dWh_ * B;
             arma::mat W = B.t() * Wh_;
 
-            // TODO: returnung std::pair, or maybe by references in parameter list?
             return ICASeparator(A, W);
         }
 
@@ -160,16 +173,39 @@ namespace mbica {
 
     private:
 
-        void init(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER) {
+        void init(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER, double mu = DEF_MU) {
             epsilon_ = epsilon;
             maxIterations_ = maxIterations;
+            mu_ = mu;
+            stroke_ = 0.0;
+            reducedStep_ = false;
+        }
+
+        void stabilize(int iteration, arma::mat B, arma::mat B_older ){
+            if (stroke_!=0.0)
+                mu_=stroke_;
+            else{
+                arma::mat minAbsCos2 = arma::min(arma::abs(arma::diagmat(B.t() * B_older)));
+                if (1 - minAbsCos2 < epsilon_){
+                    stroke_ = mu_;
+                    mu_ /= 2;
+                }
+                else if (!reducedStep_ && (iteration > maxIterations_/2)){
+                    reducedStep_=true;
+                    mu_ /= 2;
+                }
+            }
         }
 
         bool whiteningMatrixIsSet_;
+        bool stabilizationEnabled_;
         mat dWh_;
         mat Wh_;
         double epsilon_;
         int maxIterations_;
+        double mu_;
+        double stroke_;
+        bool reducedStep_;
     };
 }
 #endif // MBICA_H
