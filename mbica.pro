@@ -13,5 +13,4 @@ SOURCES += mbica.cpp \
 HEADERS += mbica.h \
     icaseparator.h \
     nonlinearities.h
-LIBS += -llapack \
-    -lblas
+LIBS += -larmadillo
