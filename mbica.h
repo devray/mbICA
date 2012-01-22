@@ -93,6 +93,12 @@ namespace mbica {
             setWhiteningMatrix(Wh, dWh);
         }
 
+        FastICA(mat guess) {
+            init();
+            guess_=guess;
+            guessProvided_=true;
+        }
+
         //  tu w jakis posob trzeba umozliwic podanie guess, whitening i dewhitenign matrix
 
         ICASeparator operator()(arma::mat X, int nIC = -1) {
@@ -112,10 +118,13 @@ namespace mbica {
             // Tu whitening (ktory zawiera w sobie PCA)
             mat A = zeros<mat>(X.n_rows, nIC);
             // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
-            // B = whiteningMatrix * guess;
-            mat B = orth(randu<mat>(X.n_rows, nIC) - 0.5),
-                B_old = arma::zeros<mat>(X.n_rows, nIC),
-                B_older = arma::zeros<mat>(X.n_rows, nIC);
+            mat B;
+            if (guessProvided_)
+                B = Wh_ * guess_;
+            else
+                B = orth(randu<mat>(X.n_rows, nIC) - 0.5);
+            mat B_old = arma::zeros<mat>(X.n_rows, nIC);
+            mat B_older = arma::zeros<mat>(X.n_rows, nIC);
             int i;
 
             // main loop (with stabilization, but no fine-tunung)
@@ -182,6 +191,8 @@ namespace mbica {
             mu_ = mu;
             stroke_ = 0.0;
             reducedStep_ = false;
+            guessProvided_ = false;
+            srand(time(NULL));
         }
 
         void stabilize(int iteration, arma::mat B, arma::mat B_older ){
@@ -202,13 +213,16 @@ namespace mbica {
 
         bool whiteningMatrixIsSet_;
         bool stabilizationEnabled_;
+        bool guessProvided_;
         mat dWh_;
         mat Wh_;
+        mat guess_;
         double epsilon_;
         int maxIterations_;
         double mu_;
         double stroke_;
         bool reducedStep_;
+
     };
 }
 
