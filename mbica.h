@@ -7,9 +7,6 @@
 #include "icaseparator.h"
 #include "utils.h"
 
-//will move to cpp in future
-using namespace arma;
-
 namespace mbica {
 
 const double DEF_EPSILON = 0.0001;
@@ -21,11 +18,11 @@ protected:
     FastICA_impl(double epsilon = DEF_EPSILON,
                  int maxIterations = DEF_MAX_ITER,
                  double mu = DEF_MU);
-    FastICA_impl(arma::mat Wh, mat dWh);
+    FastICA_impl(arma::mat Wh, arma::mat dWh);
     FastICA_impl(arma::mat guess);
 
 public:
-    void setWhiteningMatrix(arma::mat Wh, mat dWh);
+    void setWhiteningMatrix(arma::mat Wh, arma::mat dWh);
 
     void unsetWhiteningMatrix() {
         whiteningMatrixIsSet_ = false;
@@ -50,9 +47,9 @@ protected:
     bool whiteningMatrixIsSet_;
     bool stabilizationEnabled_;
     bool guessProvided_;
-    mat dWh_;
-    mat Wh_;
-    mat guess_;
+    arma::mat dWh_;
+    arma::mat Wh_;
+    arma::mat guess_;
     double epsilon_;
     int maxIterations_;
     double mu_;
@@ -81,24 +78,24 @@ public:
         X = remmean(X);
 
         if(!whiteningMatrixIsSet_) {
-            mat E;
-            vec D;
+            arma::mat E;
+            arma::vec D;
 
             PCA()(X, E, D);
             Whitening()(E ,D, Wh_, dWh_);
         }
 
         // Tu whitening (ktory zawiera w sobie PCA)
-        mat A = zeros<arma::mat>(X.n_rows, nIC);
+        arma::mat A = arma::zeros<arma::mat>(X.n_rows, nIC);
         // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
-        mat B;
+        arma::mat B;
         if (guessProvided_)
             B = Wh_ * guess_;
         else
-            B = orth(randu<arma::mat>(X.n_rows, nIC) - 0.5);
+            B = orth(arma::randu<arma::mat>(X.n_rows, nIC) - 0.5);
 
-        mat B_old = arma::zeros<arma::mat>(X.n_rows, nIC);
-        mat B_older = arma::zeros<arma::mat>(X.n_rows, nIC);
+        arma::mat B_old = arma::zeros<arma::mat>(X.n_rows, nIC);
+        arma::mat B_older = arma::zeros<arma::mat>(X.n_rows, nIC);
         int i;
 
         // main loop (with stabilization, but no fine-tunung)
