@@ -4,6 +4,7 @@
 #include <armadillo>
 #include "nonlinearities.h"
 #include "icaseparator.h"
+#include <iostream>
 
 //will move to cpp in future
 using namespace arma;
@@ -121,7 +122,8 @@ namespace mbica {
             for(i = 0; i < maxIterations_; ++i) {
                 B = B * matSqrt(arma::inv(B.t() * B));
 
-                double minAbsCos = arma::min(arma::min(arma::abs(arma::diagmat(B.t() * B_old))));
+                double minAbsCos = arma::min(arma::min(arma::abs(arma::diagvec(B.t() * B_old))));
+                std::cout << "Step: " << i << ", estimate: " << 1-minAbsCos << std::endl;
                 if( 1 - minAbsCos < epsilon_) {
                     break;
                 }
@@ -143,7 +145,7 @@ namespace mbica {
 
 
             }
-
+            std::cout << "Number of iters: " << i << std::endl;
             if(i == maxIterations_) {
                 // return empty A and W
             }
@@ -186,7 +188,7 @@ namespace mbica {
             if (stroke_!=0.0)
                 mu_=stroke_;
             else{
-                double minAbsCos2 = arma::min(arma::min(arma::abs(arma::diagmat(B.t() * B_older))));
+                double minAbsCos2 = arma::min(arma::min(arma::abs(arma::diagvec(B.t() * B_older))));
                 if (1 - minAbsCos2 < epsilon_){
                     stroke_ = mu_;
                     mu_ /= 2;

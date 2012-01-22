@@ -8,7 +8,7 @@ class ICASeparator
 {
 public:
     ICASeparator(arma::mat A, arma::mat W)
-        : A_(A), W_(W) {}
+        : A_(A), W_(W) {A.save("A.mat", arma::arma_ascii); W.save("W.mat", arma::arma_ascii);}
 
     arma::mat operator()(arma::mat X);
 

@@ -5,7 +5,8 @@
 using namespace arma;
 
 int main(){
-    mat A=randu<mat>(3,6);
+    mat A;
+    A.load("a", raw_ascii);
     mbica::ICASeparator icas = mbica::FastICA<>()(A, -1);
 
     return 0;
