@@ -3,12 +3,13 @@
 #include "mbica.h"
 
 using namespace arma;
+using namespace mbica;
 
 int main(){
     mat A, guess;
     A.load("a", raw_ascii);
     guess.load("g", raw_ascii);
-    mbica::ICASeparator icas = mbica::FastICA<>(guess)(A, -1);
+    ICASeparator icas = FastICA<>(guess)(A, -1);
 
     return 0;
 }
