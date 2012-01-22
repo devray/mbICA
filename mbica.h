@@ -41,7 +41,7 @@ protected:
               int maxIterations = DEF_MAX_ITER,
               double mu = DEF_MU);
 
-    void stabilize(int iteration, arma::mat B, arma::mat B_older );
+    void stabilize(int iteration, const arma::mat &B, const arma::mat &B_older );
 
 protected:
     bool whiteningMatrixIsSet_;
@@ -85,8 +85,6 @@ public:
             Whitening()(E ,D, Wh_, dWh_);
         }
 
-        // Tu whitening (ktory zawiera w sobie PCA)
-        arma::mat A = arma::zeros<arma::mat>(X.n_rows, nIC);
         // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
         arma::mat B;
         if (guessProvided_)
@@ -96,39 +94,36 @@ public:
 
         arma::mat B_old = arma::zeros<arma::mat>(X.n_rows, nIC);
         arma::mat B_older = arma::zeros<arma::mat>(X.n_rows, nIC);
-        int i;
 
+        double k = 1.0 / X.n_cols;
+        int i;
         // main loop (with stabilization, but no fine-tunung)
         for(i = 0; i < maxIterations_; ++i) {
             B = B * matSqrt(arma::inv(B.t() * B));
 
-            double minAbsCos = arma::min(arma::min(arma::abs(arma::diagvec(B.t() * B_old))));
-            std::cout << "Step: " << i << ", estiarma::mate: " << 1-minAbsCos << std::endl;
-            if( 1 - minAbsCos < epsilon_) {
+            double minAbsCos = 1.0 - arma::mat(arma::abs(arma::diagvec(B.t() * B_old))).min();
+            std::cout << "Step: " << i << ", estimate: " << minAbsCos << std::endl;
+            if(minAbsCos < epsilon_)
                 break;
-            }
-            else if(stabilizationEnabled_)
+
+            if(stabilizationEnabled_)
                 stabilize(i, B, B_older);
 
             B_older = B_old;
             B_old = B;
-            double k = 1.0 / X.n_cols;
+
             arma::mat Y = X.t() * B;
             UsedNonl nl(Y);
-            if(mu_==1.0)
-                B = k * X * nl.G() - k * arma::repmat(arma::sum(nl.dG()), X.n_rows, 1) % B;
-            else{
+            if(mu_ == 1.0) {
+                B = k * (X * nl.G()) - k * (arma::repmat(arma::sum(nl.dG()), X.n_rows, 1) % B);
+            } else {
                 arma::mat Beta = sum(Y % nl.G());
-                arma::mat D = diagmat(1/(Beta-sum(nl.dG())));
-                B = B + mu_ * B * (Y.t() * nl.G() - diagmat(Beta))* D;
+                arma::mat D = diagmat(1.0 / (Beta - sum(nl.dG())));
+                B += mu_ * (B * (Y.t() * nl.G() - diagmat(Beta)) * D);
             }
-
-
         }
         std::cout << "Number of iters: " << i << std::endl;
-        if(i == maxIterations_) {
-            // return empty A and W
-        }
+        std::cout << "We got B = " << B << std::endl;
 
         return ICASeparator(dWh_ * B, B.t() * Wh_);
     }
