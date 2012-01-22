@@ -4,13 +4,16 @@
 QT -= core \
     gui
 TARGET = mbica
-#TEMPLATE = lib
-#CONFIG += staticlib
+
+# TEMPLATE = lib
+# CONFIG += staticlib
 SOURCES += mbica.cpp \
     icaseparator.cpp \
     nonlinearities.cpp \
-    main.cpp
+    main.cpp \
+    utils.cpp
 HEADERS += mbica.h \
     icaseparator.h \
-    nonlinearities.h
+    nonlinearities.h \
+    utils.h
 LIBS += -larmadillo

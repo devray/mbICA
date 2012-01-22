@@ -2,9 +2,10 @@
 #define MBICA_H
 
 #include <armadillo>
+#include <iostream>
 #include "nonlinearities.h"
 #include "icaseparator.h"
-#include <iostream>
+#include "utils.h"
 
 //will move to cpp in future
 using namespace arma;
@@ -15,95 +16,61 @@ namespace mbica {
     const int DEF_MAX_ITER = 10000;
     const double DEF_MU = 1.0;
 
-    arma::mat matSqrt(const arma:: mat &X) {
-        vec D;
-        mat E;
-        eig_sym(D, E, X);
+    class FastICA_impl {
+    protected:
+        FastICA_impl(double epsilon = DEF_EPSILON,
+                     int maxIterations = DEF_MAX_ITER,
+                     double mu = DEF_MU);
+        FastICA_impl(arma::mat Wh, mat dWh);
+        FastICA_impl(arma::mat guess);
 
-        // TODO: Sprawdzic, czy znormalizowane eigenvectory
-
-        return E * diagmat(sqrt(D)) * E.t();
-    }
-
-    class PCA {
     public:
-        void operator()(const arma::mat &X, arma::mat &E, arma::vec &D) {
-            mat C = cov(X.t());
+        void setWhiteningMatrix(arma::mat Wh, mat dWh);
 
-            eig_sym(D, E, C);
-
-            unsigned stopIx = D.n_elem, startIx=0;
-            for(; stopIx > 0 && D[stopIx-1] == 0; --stopIx);
-            // Wystarczy sprawdzić od 0 do stopIx, bo w anomalnym przypadku jak wszystkie są 0 to skończymy bez sensu z startIx=D.n_elem i stopIx=0
-            for(; startIx < stopIx && D[startIx] == 0; ++startIx);
-
-            if(stopIx != D.n_elem || startIx != 0) {
-                D = D.subvec(startIx, stopIx-1);
-                // TODO: trzeba sprawdzic, czy eigenvectory w wierszach, czy kolumnach
-                // Z tego, co ja rozumiem, powinny być w kolumnach
-                E = E.cols(startIx, stopIx-1);
-            }
-
-            // TODO: sprawdzic, czy nie potrzebna jest transpozycja E - wszak transponujemy na poczatku X
-            // Od transpozycji tutaj zależałoby tylko czy eigenvectory w wyniku będą wierszach, czy kolumnach
+        void unsetWhiteningMatrix() {
+            whiteningMatrixIsSet_ = false;
         }
 
+        void setEpsilon(double epsilon) {
+            epsilon_ = epsilon;
+        }
+
+        void setMaxIterations(int max) {
+            maxIterations_ = max;
+        }
+
+    protected:
+        void init(double epsilon = DEF_EPSILON,
+                  int maxIterations = DEF_MAX_ITER,
+                  double mu = DEF_MU);
+
+        void stabilize(int iteration, arma::mat B, arma::mat B_older );
+
+    protected:
+        bool whiteningMatrixIsSet_;
+        bool stabilizationEnabled_;
+        bool guessProvided_;
+        mat dWh_;
+        mat Wh_;
+        mat guess_;
+        double epsilon_;
+        int maxIterations_;
+        double mu_;
+        double stroke_;
+        bool reducedStep_;
     };
-
-    class Whitening {
-    public:
-        // E - eigenvec from PCA
-        // D - vector with eigenvalues from PCA
-        void operator()(const arma::mat &E, const arma::vec &D,
-                        arma::mat &Wh, arma::mat &dWh) {
-            mat sqrtD = diagmat(sqrt(D));
-            Wh = inv(sqrtD) * E.t();
-            dWh = E * sqrtD;
-        }
-    };
-
-    mat orth(const mat& A){
-        mat U, V;
-        vec s;
-        svd(U,s,V,A);
-
-        if(A.n_rows > A.n_cols){
-            U = U.cols(0, A.n_cols-1);
-            s = s.subvec(0, A.n_cols-1);
-        }
-        double tolerance = std::max(A.n_rows,A.n_cols) * math::eps() * max(s);
-        int r=0;
-        for(unsigned i=0; i < s.n_elem; ++i)
-            if (s[i] > tolerance)
-                ++r;
-
-        return U.cols(0,r-1);
-    }
-
-    mat remmean(mat X) {
-        return X - arma::repmat(arma::mean(X, 1), 1, X.n_cols);
-    }
 
     template<class UsedNonl = nonlinearities::Pow<3> >
-    class FastICA {
+    class FastICA: public FastICA_impl {
     public:
         FastICA(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER, double mu = DEF_MU)
-            : whiteningMatrixIsSet_(false) {
-            init(epsilon, maxIterations, mu);
-        }
+            : FastICA_impl(epsilon, maxIterations, mu) {}
 
-        FastICA(mat Wh, mat dWh) {
-            init();
-            setWhiteningMatrix(Wh, dWh);
-        }
+        FastICA(arma::mat Wh, arma::mat dWh)
+            : FastICA_impl(Wh, dWh) {}
 
-        FastICA(mat guess) {
-            init();
-            guess_=guess;
-            guessProvided_=true;
-        }
-
-        //  tu w jakis posob trzeba umozliwic podanie guess, whitening i dewhitenign matrix
+        FastICA(arma::mat guess)
+            : FastICA_impl(guess) {}
 
         ICASeparator operator()(arma::mat X, int nIC = -1) {
             //nIC == -1 means the same size it's now.
@@ -122,16 +89,16 @@ namespace mbica {
             }
 
             // Tu whitening (ktory zawiera w sobie PCA)
-            mat A = zeros<mat>(X.n_rows, nIC);
+            mat A = zeros<arma::mat>(X.n_rows, nIC);
             // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
             mat B;
             if (guessProvided_)
                 B = Wh_ * guess_;
             else
-                B = orth(randu<mat>(X.n_rows, nIC) - 0.5);
+                B = orth(randu<arma::mat>(X.n_rows, nIC) - 0.5);
 
-            mat B_old = arma::zeros<mat>(X.n_rows, nIC);
-            mat B_older = arma::zeros<mat>(X.n_rows, nIC);
+            mat B_old = arma::zeros<arma::mat>(X.n_rows, nIC);
+            mat B_older = arma::zeros<arma::mat>(X.n_rows, nIC);
             int i;
 
             // main loop (with stabilization, but no fine-tunung)
@@ -139,7 +106,7 @@ namespace mbica {
                 B = B * matSqrt(arma::inv(B.t() * B));
 
                 double minAbsCos = arma::min(arma::min(arma::abs(arma::diagvec(B.t() * B_old))));
-                std::cout << "Step: " << i << ", estimate: " << 1-minAbsCos << std::endl;
+                std::cout << "Step: " << i << ", estiarma::mate: " << 1-minAbsCos << std::endl;
                 if( 1 - minAbsCos < epsilon_) {
                     break;
                 }
@@ -168,68 +135,6 @@ namespace mbica {
 
             return ICASeparator(dWh_ * B, B.t() * Wh_);
         }
-
-        void setWhiteningMatrix(mat Wh, mat dWh) {
-            //whiteningMatrixIsSet_ = (dWh() != 0 && Wh != 0);
-            whiteningMatrixIsSet_ = true;
-            if(whiteningMatrixIsSet_){
-                dWh_ = dWh;
-                Wh_ = Wh;
-            }
-        }
-
-        void unsetWhiteningMatrix() {
-            whiteningMatrixIsSet_ = false;
-        }
-
-        void setEpsilon(double epsilon) {
-            epsilon_ = epsilon;
-        }
-
-        void setMaxIterations(int max) {
-            maxIterations_ = max;
-        }
-
-    private:
-
-        void init(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER, double mu = DEF_MU) {
-            epsilon_ = epsilon;
-            maxIterations_ = maxIterations;
-            mu_ = mu;
-            stroke_ = 0.0;
-            reducedStep_ = false;
-            guessProvided_ = false;
-            srand(time(NULL));
-        }
-
-        void stabilize(int iteration, arma::mat B, arma::mat B_older ){
-            if (stroke_!=0.0)
-                mu_=stroke_;
-            else{
-                double minAbsCos2 = arma::min(arma::min(arma::abs(arma::diagvec(B.t() * B_older))));
-                if (1 - minAbsCos2 < epsilon_){
-                    stroke_ = mu_;
-                    mu_ /= 2;
-                }
-                else if (!reducedStep_ && (iteration > maxIterations_/2)){
-                    reducedStep_=true;
-                    mu_ /= 2;
-                }
-            }
-        }
-
-        bool whiteningMatrixIsSet_;
-        bool stabilizationEnabled_;
-        bool guessProvided_;
-        mat dWh_;
-        mat Wh_;
-        mat guess_;
-        double epsilon_;
-        int maxIterations_;
-        double mu_;
-        double stroke_;
-        bool reducedStep_;
-
     };
 }
 
