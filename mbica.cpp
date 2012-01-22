@@ -1,8 +1,7 @@
 #include "mbica.h"
 
 using namespace arma;
-
-namespace mbica {
+using namespace mbica;
 
 FastICA_impl::FastICA_impl(double epsilon, int maxIterations, double mu)
     : whiteningMatrixIsSet_(false) {
@@ -32,17 +31,15 @@ void FastICA_impl::init(double epsilon, int maxIterations, double mu) {
     epsilon_ = epsilon;
     maxIterations_ = maxIterations;
     mu_ = mu;
-    stroke_ = 0.0;
-    reducedStep_ = false;
     guessProvided_ = false;
     srand(time(NULL));
 }
 
-void FastICA_impl::stabilize(int iteration, const mat &B, const mat &B_older ){
+void WithStabilization::operator ()(int iteration, const arma::mat &B, const arma::mat &B_old) {
     if (stroke_ != 0.0)
         mu_ = stroke_;
     else {
-        if (1.0 - mat(abs(diagvec(B.t() * B_older))).min() < epsilon_) {
+        if (1.0 - mat(abs(diagvec(B.t() * BOlder_))).min() < epsilon_) {
             stroke_ = mu_;
             mu_ /= 2;
         } else if (!reducedStep_ && (iteration > maxIterations_ / 2)) {
@@ -50,5 +47,5 @@ void FastICA_impl::stabilize(int iteration, const mat &B, const mat &B_older ){
             mu_ /= 2;
         }
     }
-}
+    BOlder_ = B_old;
 }
