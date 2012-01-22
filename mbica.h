@@ -80,6 +80,10 @@ namespace mbica {
         return U.cols(0,r-1);
     }
 
+    mat remmean(mat X) {
+        return X - arma::repmat(arma::mean(X, 1), 1, X.n_cols);
+    }
+
     template<class UsedNonl = nonlinearities::Pow<3> >
     class FastICA {
     public:
@@ -107,6 +111,8 @@ namespace mbica {
                 nIC = X.n_rows;
             }
 
+            X = remmean(X);
+
             if(!whiteningMatrixIsSet_) {
                 mat E;
                 vec D;
@@ -123,6 +129,7 @@ namespace mbica {
                 B = Wh_ * guess_;
             else
                 B = orth(randu<mat>(X.n_rows, nIC) - 0.5);
+
             mat B_old = arma::zeros<mat>(X.n_rows, nIC);
             mat B_older = arma::zeros<mat>(X.n_rows, nIC);
             int i;
