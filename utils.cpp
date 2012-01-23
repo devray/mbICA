@@ -20,9 +20,9 @@ void PCA::operator()(const arma::mat &X, arma::mat &E, arma::vec &D) {
     eig_sym(D, E, C);
 
     unsigned stopIx = D.n_elem, startIx=0;
-    for(; stopIx > 0 && D[stopIx-1] == 0; --stopIx);
+    for(; stopIx > 0 && D[stopIx-1] < math::eps(); --stopIx);
     // Wystarczy sprawdzić od 0 do stopIx, bo w anomalnym przypadku jak wszystkie są 0 to skończymy bez sensu z startIx=D.n_elem i stopIx=0
-    for(; startIx < stopIx && D[startIx] == 0; ++startIx);
+    for(; startIx < stopIx && D[startIx] < math::eps(); ++startIx);
 
     if(stopIx != D.n_elem || startIx != 0) {
         D = D.subvec(startIx, stopIx-1);

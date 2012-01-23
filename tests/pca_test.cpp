@@ -20,8 +20,8 @@ BOOST_AUTO_TEST_CASE(negative_eigenvalues)
 {
     mat E;
     vec D;
-    for(int i=0; i<1000; ++i){
-        mat X = randu<mat>(10, 200);
+    for(int i=0; i<100; ++i){
+        mat X = randu<mat>(10, 9);
         mbica::PCA()(X,E,D);
         BOOST_CHECK(D.min() >= 0);
     }
