@@ -7,11 +7,20 @@
 #include "icaseparator.h"
 #include "utils.h"
 
+#include <boost/parameter.hpp>
+
 namespace mbica {
 
 const double DEF_EPSILON = 0.0001;
 const int DEF_MAX_ITER = 10000;
 const double DEF_MU = 1.0;
+
+BOOST_PARAMETER_NAME(dWh)
+BOOST_PARAMETER_NAME(wh)
+BOOST_PARAMETER_NAME(guessMatrix)
+BOOST_PARAMETER_NAME(epsilon)
+BOOST_PARAMETER_NAME(maxIterations)
+BOOST_PARAMETER_NAME(mu)
 
 class FastICA_impl {
 protected:
@@ -20,12 +29,26 @@ protected:
                  double mu = DEF_MU);
     FastICA_impl(arma::mat Wh, arma::mat dWh);
     FastICA_impl(arma::mat guess);
+    template <class ArgumentPack>
+    FastICA_impl(ArgumentPack const &args)
+        : dWh_(args[_dWh | arma::mat()]),
+          Wh_(args[_wh | arma::mat()]),
+          guess_(args[_guessMatrix | arma::mat()]),
+          epsilon_(args[_epsilon | DEF_EPSILON]),
+          maxIterations_(args[_maxIterations | DEF_MAX_ITER]),
+          mu_(args[_mu | DEF_MU])
+    {
+    }
 
 public:
-    void setWhiteningMatrix(arma::mat Wh, arma::mat dWh);
+    void setWhiteningMatrix(arma::mat Wh, arma::mat dWh) {
+        Wh_ = Wh;
+        dWh_ = dWh;
+    }
 
     void unsetWhiteningMatrix() {
-        whiteningMatrixIsSet_ = false;
+        Wh_.reset();
+        dWh_.reset();
     }
 
     void setEpsilon(double epsilon) {
@@ -44,8 +67,6 @@ protected:
     void stabilize(int iteration, const arma::mat &B, const arma::mat &B_older );
 
 protected:
-    bool whiteningMatrixIsSet_;
-    bool guessProvided_;
     arma::mat dWh_;
     arma::mat Wh_;
     arma::mat guess_;
@@ -88,6 +109,17 @@ public:
     FastICA(arma::mat guess)
         : FastICA_impl(guess) {}
 
+    BOOST_PARAMETER_CONSTRUCTOR(
+            FastICA, (FastICA_impl), mbica::tag
+            , (required) (optional
+               (mu, *)
+               (maxIterations, *)
+               (epsilon, *)
+               (guessMatrix, *)
+               (dWh, *)
+               (wh, *)
+            ))
+
     ICASeparator operator()(arma::mat X, int nIC = -1) {
         //nIC == -1 means the same size it's now.
         if(nIC == -1) {
@@ -96,17 +128,19 @@ public:
 
         X = remmean(X);
 
-        if(!whiteningMatrixIsSet_) {
+        if(Wh_.is_empty() || dWh_.is_empty()) {
             arma::mat E;
             arma::vec D;
 
             PCA()(X, E, D);
             Whitening()(E ,D, Wh_, dWh_);
+
         }
+        X = Wh_ * X;
 
         // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
         arma::mat B;
-        if (guessProvided_)
+        if (!guess_.is_empty())
             B = Wh_ * guess_;
         else
             B = orth(arma::randu<arma::mat>(X.n_rows, nIC) - 0.5);

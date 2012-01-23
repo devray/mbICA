@@ -3,8 +3,7 @@
 using namespace arma;
 using namespace mbica;
 
-FastICA_impl::FastICA_impl(double epsilon, int maxIterations, double mu)
-    : whiteningMatrixIsSet_(false) {
+FastICA_impl::FastICA_impl(double epsilon, int maxIterations, double mu) {
     init(epsilon, maxIterations, mu);
 }
 
@@ -16,22 +15,12 @@ FastICA_impl::FastICA_impl(arma::mat Wh, mat dWh) {
 FastICA_impl::FastICA_impl(arma::mat guess) {
     init();
     guess_=guess;
-    guessProvided_=true;
-}
-
-void FastICA_impl::setWhiteningMatrix(arma::mat Wh, mat dWh) {
-    whiteningMatrixIsSet_ = true;
-    if(whiteningMatrixIsSet_){
-        dWh_ = dWh;
-        Wh_ = Wh;
-    }
 }
 
 void FastICA_impl::init(double epsilon, int maxIterations, double mu) {
     epsilon_ = epsilon;
     maxIterations_ = maxIterations;
     mu_ = mu;
-    guessProvided_ = false;
     srand(time(NULL));
 }
 
