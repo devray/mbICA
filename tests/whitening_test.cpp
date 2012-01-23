@@ -3,17 +3,19 @@
 using namespace arma;
 
 #define BOOST_TEST_MODULE Whitening_tests
-#include <boost/test/included/unit_test.hpp>
+#define BOOST_T
+#include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE( dontknowyet )
+BOOST_AUTO_TEST_CASE( identity_covariance )
 {
-    mat E;
+    mat E, Wh, dWh;
     vec D;
     for(int i=0; i<100; ++i){
-        mat X = randu<mat>(10, 9);
-//        mbica::PCA()(X,E,D);
-
-//        BOOST_CHECK(D.min() >= 0);
+        mat Y,X = randu<mat>(10, 9);
+        mbica::PCA()(X,E,D);
+        mbica::Whitening()(E,D,Wh,dWh);
+        Y = X * Wh;
+        BOOST_CHECK(mat(abs(cov(Y)-eye(Y.n_rows,Y.n_cols))).max() < 0.00001f);
     }
 }
 
