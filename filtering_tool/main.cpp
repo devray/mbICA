@@ -82,7 +82,7 @@ void Transformer::filterSignal(const mat &sig, int column,
 	int i;
 	// copying from input
 	for(i = 0; i < N_; ++i) {
-		dataBuffer_[i] = sig(column, i);
+		dataBuffer_[i] = sig(i, column);
 	}
 
 	// converting freq to sample nnumbers
@@ -109,7 +109,7 @@ void Transformer::filterSignal(const mat &sig, int column,
 
 	// copying to output
 	for(i = 0; i < N_; ++i) {
-		out(column, i) = innerBuffer_[i] / N_;
+		out(i, column) = innerBuffer_[i] / N_;
 	}
 }
 
