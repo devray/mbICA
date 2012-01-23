@@ -8,7 +8,7 @@ int main(){
     mat A, guess;
     A.load("a", raw_ascii);
     guess.load("g", raw_ascii);
-    ICASeparator icas = FastICA<>(guess)(A, -1);
+    ICASeparator icas = FastICA<>(_guessMatrix = guess)(A, -1);
 
     return 0;
 }

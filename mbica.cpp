@@ -3,27 +3,6 @@
 using namespace arma;
 using namespace mbica;
 
-FastICA_impl::FastICA_impl(double epsilon, int maxIterations, double mu) {
-    init(epsilon, maxIterations, mu);
-}
-
-FastICA_impl::FastICA_impl(arma::mat Wh, mat dWh) {
-    init();
-    setWhiteningMatrix(Wh, dWh);
-}
-
-FastICA_impl::FastICA_impl(arma::mat guess) {
-    init();
-    guess_=guess;
-}
-
-void FastICA_impl::init(double epsilon, int maxIterations, double mu) {
-    epsilon_ = epsilon;
-    maxIterations_ = maxIterations;
-    mu_ = mu;
-    srand(time(NULL));
-}
-
 void WithStabilization::operator ()(int iteration, const arma::mat &B, const arma::mat &B_old) {
     if (stroke_ != 0.0)
         mu_ = stroke_;

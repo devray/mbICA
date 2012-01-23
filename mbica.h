@@ -23,11 +23,6 @@ BOOST_PARAMETER_NAME(mu)
 
 class FastICA_impl {
 protected:
-    FastICA_impl(double epsilon = DEF_EPSILON,
-                 int maxIterations = DEF_MAX_ITER,
-                 double mu = DEF_MU);
-    FastICA_impl(arma::mat Wh, arma::mat dWh);
-    FastICA_impl(arma::mat guess);
     template <class ArgumentPack>
     FastICA_impl(ArgumentPack const &args)
         : dWh_(args[_dWh | arma::mat()]),
@@ -57,13 +52,6 @@ public:
     void setMaxIterations(int max) {
         maxIterations_ = max;
     }
-
-protected:
-    void init(double epsilon = DEF_EPSILON,
-              int maxIterations = DEF_MAX_ITER,
-              double mu = DEF_MU);
-
-    void stabilize(int iteration, const arma::mat &B, const arma::mat &B_older );
 
 protected:
     arma::mat dWh_;
@@ -99,18 +87,9 @@ private:
 template<class UsedNonl = nonlinearities::Pow<3>, class Stabilization = NoStabilization >
 class FastICA: public FastICA_impl {
 public:
-    FastICA(double epsilon = DEF_EPSILON, int maxIterations = DEF_MAX_ITER, double mu = DEF_MU)
-        : FastICA_impl(epsilon, maxIterations, mu) {}
-
-    FastICA(arma::mat Wh, arma::mat dWh)
-        : FastICA_impl(Wh, dWh) {}
-
-    FastICA(arma::mat guess)
-        : FastICA_impl(guess) {}
-
     BOOST_PARAMETER_CONSTRUCTOR(
             FastICA, (FastICA_impl), mbica::tag
-            , (required) (optional
+            , (optional
                (mu, *)
                (maxIterations, *)
                (epsilon, *)
