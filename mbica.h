@@ -125,17 +125,16 @@ public:
             nIC = X.n_rows;
         }
 
-        X = remmean(X);
 
         if(Wh_.is_empty() || dWh_.is_empty()) {
             arma::mat E;
             arma::vec D;
 
+            X = remmean(X);
             PCA()(X, E, D);
             Whitening()(E ,D, Wh_, dWh_);
-
+            X = Wh_ * X;
         }
-        X = Wh_ * X;
 
         // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
         arma::mat B;
