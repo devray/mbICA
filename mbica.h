@@ -2,11 +2,14 @@
 #define MBICA_H
 
 #include <armadillo>
-#include <iostream>
-#include "nonlinearities.h"
-#include "icaseparator.h"
-#include "utils.h"
 #include <boost/parameter.hpp>
+#include <iostream>
+
+#include "icaseparator.h"
+#include "nonlinearities.h"
+#include "policies.h"
+#include "utils.h"
+
 
 namespace mbica {
 
@@ -60,28 +63,6 @@ protected:
     double epsilon_;
     int maxIterations_;
     double mu_;
-};
-
-class NoStabilization {
-public:
-    NoStabilization(double, double, int) {}
-    void operator()(int, const arma::mat &, const arma::mat &) {}
-};
-
-class WithStabilization {
-public:
-    WithStabilization(double &epsilon, double &mu, int &maxIterations)
-        : epsilon_(epsilon), mu_(mu), stroke_(0.0), maxIterations_(maxIterations), reducedStep_(false)  {}
-
-    void operator()(int iteration, const arma::mat &B, const arma::mat &B_old);
-
-private:
-    arma::mat BOlder_;
-    double &epsilon_;
-    double &mu_;
-    double stroke_;
-    int maxIterations_;
-    bool reducedStep_;
 };
 
 template<class UsedNonl = nonlinearities::Pow<3>, class Stabilization = NoStabilization >

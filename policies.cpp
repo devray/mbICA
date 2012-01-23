@@ -1,4 +1,4 @@
-#include "mbica.h"
+#include "policies.h"
 
 using namespace arma;
 using namespace mbica;
@@ -17,3 +17,4 @@ void WithStabilization::operator ()(int iteration, const arma::mat &B, const arm
     }
     BOlder_ = B_old;
 }
+

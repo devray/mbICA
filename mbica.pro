@@ -7,15 +7,17 @@ TARGET = mbica
 
 # TEMPLATE = lib
 # CONFIG += staticlib
-SOURCES += mbica.cpp \
+SOURCES += \
     icaseparator.cpp \
     nonlinearities.cpp \
     main.cpp \
-    utils.cpp
+    utils.cpp \
+    policies.cpp
 HEADERS += mbica.h \
     icaseparator.h \
     nonlinearities.h \
-    utils.h
+    utils.h \
+    policies.h
 LIBS += -larmadillo
 
 DEFINES += ARMA_USE_LAPACK \
