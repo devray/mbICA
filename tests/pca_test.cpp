@@ -26,3 +26,14 @@ BOOST_AUTO_TEST_CASE(negative_eigenvalues)
         BOOST_CHECK(D.min() >= 0);
     }
 }
+
+BOOST_AUTO_TEST_CASE(dimension_reduction)
+{
+    mat E;
+    vec D, row;
+    row << 1 << 2 << 3 << 4 << 5 << endr;
+    mat X = repmat(row, 3, 1);
+    mbica::PCA()(X, E, D);
+
+    BOOST_CHECK(D.n_elem == 1);
+}
