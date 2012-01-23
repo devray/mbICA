@@ -10,11 +10,11 @@ TARGET = mbica
 SOURCES += \
     icaseparator.cpp \
     nonlinearities.cpp \
-#    main.cpp \
+    main.cpp \
     utils.cpp \
-    policies.cpp \
-    tests/pca_test.cpp \
-    tests/whitening_test.cpp
+    policies.cpp
+    #tests/pca_test.cpp \
+    #tests/whitening_test.cpp
 HEADERS += mbica.h \
     icaseparator.h \
     nonlinearities.h \

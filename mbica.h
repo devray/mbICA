@@ -135,7 +135,7 @@ public:
             }
         }
         std::cout << "Number of iters: " << i << std::endl;
-        std::cout << "We got B = " << B << std::endl;
+        //std::cout << "We got B = " << B << std::endl;
 
         return ICASeparator(dWh_ * B, B.t() * Wh_);
     }
