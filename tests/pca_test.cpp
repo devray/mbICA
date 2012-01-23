@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(eye_identity)
 
     mbica::PCA()(X, E, D);
 
-    mat Y = E.t() * X;
+    mat Y = E * X;
 
     BOOST_CHECK_SMALL(mat(abs(Y - X)).max(), 0.000001);
 }

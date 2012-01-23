@@ -25,12 +25,14 @@ void PCA::operator()(const arma::mat &X, arma::mat &E, arma::vec &D) {
         D = D.subvec(startIx, stopIx-1);
         E = E.cols(startIx, stopIx-1);
     }
+
+    E = E.t();
 }
 void Whitening::operator()(const arma::mat &E, const arma::vec &D,
                            arma::mat &Wh, arma::mat &dWh) {
     mat sqrtD = diagmat(sqrt(D));
-    Wh = inv(sqrtD) * E.t();
-    dWh = E * sqrtD;
+    Wh = inv(sqrtD) * E;
+    dWh = E.t() * sqrtD;
 }
 
 mat orth(const mat &A){
