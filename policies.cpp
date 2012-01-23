@@ -4,6 +4,7 @@ using namespace arma;
 using namespace mbica;
 
 void WithStabilization::operator ()(int iteration, const arma::mat &B, const arma::mat &B_old) {
+    if ( BOlder_.is_empty() ) BOlder_.copy_size(B_old);
     if (stroke_ != 0.0)
         mu_ = stroke_;
     else {

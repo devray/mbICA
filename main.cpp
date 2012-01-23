@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
     mat A;
     A.load(argv[1], raw_ascii);
     A = A.t();
-    ICASeparator icas = FastICA<>()(A);//_guessMatrix = guess)(A);
+    ICASeparator icas = FastICA<nonlinearities::Pow<3>, WithStabilization >(_maxIterations=1000)(A);//_guessMatrix = guess)(A);
     mat(icas(A).t()).save("result.txt", raw_ascii);
 
     return 0;
