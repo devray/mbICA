@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <armadillo>
+#include <cmath>
 using namespace arma;
 
 #define BOOST_TEST_MODULE PCA_tests
@@ -9,11 +10,15 @@ BOOST_AUTO_TEST_CASE(eye_identity)
 {
     mat E;
     vec D;
-    mat X = eye(10, 10);
+    mat X(3, 6);
+    X.cols(0,2) = eye(3, 3);
+    X.cols(3,5) = -1 * eye(3, 3);
 
     mbica::PCA()(X, E, D);
 
-    BOOST_CHECK(mat(abs(X - eye(10,10))).max() < 0.00001f);
+    mat Y = E.t() * X;
+
+    BOOST_CHECK_SMALL(mat(abs(Y - X)).max(), 0.000001);
 }
 
 BOOST_AUTO_TEST_CASE(negative_eigenvalues)
