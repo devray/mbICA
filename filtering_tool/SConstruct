@@ -1,0 +1,7 @@
+import os
+
+common_libs = Split('fftw3 m')
+target = 'filtool'
+env = Environment(ENV = os.environ, CXXFLAGS="-Wall -std=gnu++0x")
+
+env.Program(target = target, source = Glob("*.cpp"), LIBS = common_libs)
