@@ -13,9 +13,12 @@
 
 namespace mbica {
 
-const double DEF_EPSILON = 0.0001;
-const int DEF_MAX_ITER = 10000;
-const double DEF_MU = 1.0;
+// default values
+namespace def {
+const double EPSILON = 0.0001;
+const int MAX_ITERATIONS = 10000;
+const double MU = 1.0;
+}
 
 BOOST_PARAMETER_NAME(dWh)
 BOOST_PARAMETER_NAME(wh)
@@ -24,6 +27,7 @@ BOOST_PARAMETER_NAME(epsilon)
 BOOST_PARAMETER_NAME(maxIterations)
 BOOST_PARAMETER_NAME(mu)
 
+// base class for FastICA
 class FastICA_impl {
 protected:
     template <class ArgumentPack>
@@ -31,9 +35,9 @@ protected:
         : dWh_(args[_dWh | arma::mat()]),
           Wh_(args[_wh | arma::mat()]),
           guess_(args[_guessMatrix | arma::mat()]),
-          epsilon_(args[_epsilon | DEF_EPSILON]),
-          maxIterations_(args[_maxIterations | DEF_MAX_ITER]),
-          mu_(args[_mu | DEF_MU])
+          epsilon_(args[_epsilon | def::EPSILON]),
+          maxIterations_(args[_maxIterations | def::MAX_ITERATIONS]),
+          mu_(args[_mu | def::MU])
     {
     }
 
@@ -80,12 +84,6 @@ public:
             ))
 
     ICASeparator operator()(arma::mat X, int nIC = -1) {
-        //nIC == -1 means the same size it's now.
-        if(nIC == -1) {
-            nIC = X.n_rows;
-        }
-
-
         if(Wh_.is_empty() || dWh_.is_empty()) {
             arma::mat E;
             arma::vec D;
@@ -94,6 +92,11 @@ public:
             PCA()(X, E, D);
             Whitening()(E ,D, Wh_, dWh_);
             X = Wh_ * X;
+        }
+
+        //nIC == -1 means the same size it's now.
+        if(nIC < 0 || unsigned(nIC) > X.n_rows) {
+            nIC = X.n_rows;
         }
 
         // B mozemy dac jako zgadniete, np, zeby znalezc wiecej IC
