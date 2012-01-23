@@ -10,15 +10,16 @@ TARGET = mbica
 SOURCES += \
     icaseparator.cpp \
     nonlinearities.cpp \
-    main.cpp \
+#    main.cpp \
     utils.cpp \
-    policies.cpp
+    policies.cpp \
+    tests/pca_test.cpp
 HEADERS += mbica.h \
     icaseparator.h \
     nonlinearities.h \
     utils.h \
     policies.h
-LIBS += -larmadillo
+LIBS += -larmadillo -lboost_unit_test_framework
 
 DEFINES += ARMA_USE_LAPACK \
     BOOST_PARAMETER_MAX_ARITY=7
