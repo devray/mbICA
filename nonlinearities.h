@@ -33,8 +33,8 @@ class TanH: public Nonlinearity{
 public:
     TanH(arma::mat X){
         double c = double(a)/b;
-        g_ = arma::tanh(c*X);
-        dg_ = c*(1 - pow(g_, 2));
+        g_ = arma::tanh(c * X);
+        dg_ = c * (1 - pow(g_, 2));
     }
 };
 
@@ -43,10 +43,9 @@ class Gauss: public Nonlinearity{
 public:
     Gauss(arma::mat X){
         double c = double(a)/b;
-        g_ = X * arma::exp(-0.5*c*arma::pow(X, 2));
-        dg_ = (1-c*arma::pow(X, 2))*g_;
+        g_ = X % arma::exp(-0.5 * c * arma::pow(X, 2));
+        dg_ = (1 - c * arma::pow(X, 2)) % g_;
     }
-
 };
 
 typedef Pow<2> Skew;
