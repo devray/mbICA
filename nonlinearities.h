@@ -19,7 +19,7 @@ protected:
     arma::mat dg_;
 };
 
-template<int a>
+template<int a=3>
 class Pow: public Nonlinearity{
 public:
     Pow(arma::mat X){
@@ -28,8 +28,9 @@ public:
     }
 };
 
-template<int a, int b>
+template<int a=1, int b=1>
 class TanH: public Nonlinearity{
+public:
     TanH(arma::mat X){
         double c = double(a)/b;
         g_ = arma::tanh(c*X);
@@ -37,8 +38,9 @@ class TanH: public Nonlinearity{
     }
 };
 
-template<int a, int b>
+template<int a=1, int b=1>
 class Gauss: public Nonlinearity{
+public:
     Gauss(arma::mat X){
         double c = double(a)/b;
         g_ = X * arma::exp(-0.5*c*arma::pow(X, 2));
