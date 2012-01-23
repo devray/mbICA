@@ -9,8 +9,6 @@ arma::mat matSqrt(const arma:: mat &X) {
     mat E;
     eig_sym(D, E, X);
 
-    // TODO: Sprawdzic, czy znormalizowane eigenvectory
-
     return E * diagmat(sqrt(D)) * E.t();
 }
 
@@ -21,18 +19,12 @@ void PCA::operator()(const arma::mat &X, arma::mat &E, arma::vec &D) {
 
     unsigned stopIx = D.n_elem, startIx=0;
     for(; stopIx > 0 && D[stopIx-1] < math::eps(); --stopIx);
-    // Wystarczy sprawdzić od 0 do stopIx, bo w anomalnym przypadku jak wszystkie są 0 to skończymy bez sensu z startIx=D.n_elem i stopIx=0
     for(; startIx < stopIx && D[startIx] < math::eps(); ++startIx);
 
     if(stopIx != D.n_elem || startIx != 0) {
         D = D.subvec(startIx, stopIx-1);
-        // TODO: trzeba sprawdzic, czy eigenvectory w wierszach, czy kolumnach
-        // Z tego, co ja rozumiem, powinny być w kolumnach
         E = E.cols(startIx, stopIx-1);
     }
-
-    // TODO: sprawdzic, czy nie potrzebna jest transpozycja E - wszak transponujemy na poczatku X
-    // Od transpozycji tutaj zależałoby tylko czy eigenvectory w wyniku będą wierszach, czy kolumnach
 }
 void Whitening::operator()(const arma::mat &E, const arma::vec &D,
                            arma::mat &Wh, arma::mat &dWh) {
