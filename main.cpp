@@ -1,4 +1,3 @@
-#define ARMA_USE_LAPACK
 #include <armadillo>
 #include "mbica.h"
 

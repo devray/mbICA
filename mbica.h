@@ -6,7 +6,6 @@
 #include "nonlinearities.h"
 #include "icaseparator.h"
 #include "utils.h"
-
 #include <boost/parameter.hpp>
 
 namespace mbica {

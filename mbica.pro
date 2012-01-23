@@ -17,3 +17,6 @@ HEADERS += mbica.h \
     nonlinearities.h \
     utils.h
 LIBS += -larmadillo
+
+DEFINES += ARMA_USE_LAPACK \
+    BOOST_PARAMETER_MAX_ARITY=7
