@@ -17,6 +17,7 @@ BOOST_AUTO_TEST_CASE(stabilization_stroke_check)
     mat B_old = 0.1 * eye(3, 3);
     mbica::WithStabilization ws(epsilon, mu, max_iterations);
 
+    // We use iteration equal 0 to not trigger second condition
     // setting BOlder to 0.1 * eye(3,3)
     ws(0, B, B_old);
 
@@ -36,12 +37,14 @@ BOOST_AUTO_TEST_CASE(stabilization_reduceStep_check)
     double mu = 10.0,
             epsilon = 0.9;
     int max_iterations = 3;
+
+    // We use zeros to not trigger first condition
     mat B = zeros(1, 1);
     mat B_old = zeros(1, 1);
     mbica::WithStabilization ws(epsilon, mu, max_iterations);
 
     // now mu should be halved
-    ws(2, zeros(1, 1), B_old);
+    ws(2, B, B_old);
     BOOST_CHECK_SMALL(mu - 5.0, 0.0000001);
 
     // ... and should stay that way even after another late iteration
