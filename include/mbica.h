@@ -38,7 +38,6 @@ protected:
           epsilon_(args[_epsilon | def::EPSILON]),
           maxIterations_(args[_maxIterations | def::MAX_ITERATIONS])
     {
-        srand(time(NULL));
     }
 
 public:

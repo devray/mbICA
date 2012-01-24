@@ -15,7 +15,9 @@ int main(int argc, char *argv[]){
     double mu = 1.0;
     if(argc > 2) {
         mu = atof(argv[2]);
-    }
+    }    
+
+    srand(time(NULL));
 
     cout << "Using mu = " << mu << endl;
     mat A;
