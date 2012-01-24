@@ -1,3 +1,16 @@
+/**
+  * @file
+  * @author  Pawel Zubrycki <P.Zubrycki@stud.elka.pw.edu.pl>
+  * @author  Stanisław Janikowski <S.A.Janikowski@stud.elka.pw.edu.pl>
+  *
+  * @section DESCRIPTION
+  *
+  * File with preimplemented nonlinearities used in FastICA algorithm.
+  *
+  * @note New nonlinearites don't have to inherit from Nonlinearity class.
+  *       They just have to provide G() and dG() methods.
+  **/
+
 #ifndef NONLINEARITIES_H
 #define NONLINEARITIES_H
 
@@ -6,12 +19,18 @@
 namespace mbica {
 namespace nonlinearities {
 
+/**
+  * Base class for preimplemented nonlinearities.
+  */
 class Nonlinearity {
 public:
+    /// Method returning value of function.
     arma::mat G() { return g_; }
+    /// Method returning value of derivative of function.
     arma::mat dG() { return dg_; }
 
 protected:
+    /// Protected constructor to prevent from creating Nonlinearity objects.
     Nonlinearity(){}
 
 protected:
@@ -19,6 +38,11 @@ protected:
     arma::mat dg_;
 };
 
+/**
+  * Class implementing power function on matrix elements.
+  *
+  * @param a Exponent.
+  **/
 template<int a=3>
 class Pow: public Nonlinearity{
 public:
@@ -28,6 +52,15 @@ public:
     }
 };
 
+
+/**
+  * Class implementing tanh nonlinearity.
+  *
+  * @note Class uses fraction a/b as a parameter.
+  *
+  * @param a Numerator of parameter.
+  * @param b Denominator of parameter.
+  **/
 template<int a=1, int b=1>
 class TanH: public Nonlinearity{
 public:
@@ -38,6 +71,14 @@ public:
     }
 };
 
+/**
+  * Class implementing gauss nonlinearity.
+  *
+  * @note Class uses fraction a/b as a parameter.
+  *
+  * @param a Numerator of parameter.
+  * @param b Denominator of parameter.
+  **/
 template<int a=1, int b=1>
 class Gauss: public Nonlinearity{
 public:
@@ -49,6 +90,7 @@ public:
     }
 };
 
+/// Typedef to provide compatibility with Octave packet.
 typedef Pow<2> Skew;
 }
 }
