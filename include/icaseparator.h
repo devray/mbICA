@@ -12,6 +12,13 @@ public:
 
     arma::mat operator()(arma::mat X);
 
+    const arma::mat &getA() const {
+        return A_;
+    }
+    const arma::mat &getW() const {
+        return W_;
+    }
+
 private:
     arma::mat A_;
     arma::mat W_;
