@@ -14,7 +14,9 @@ SOURCES += \
 
 HEADERS += \
     utils_test.h \
-    nonlinearity_test.h
+    nonlinearity_test.h \
+    policies_test.h \
+    icaseparator_test.h
 
 LIBS += -lmbica
 unix:LIBS += -larmadillo -lboost_unit_test_framework

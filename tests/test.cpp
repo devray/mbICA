@@ -7,3 +7,5 @@ using namespace arma;
 
 #include "utils_test.h"
 #include "nonlinearity_test.h"
+#include "policies_test.h"
+#include "icaseparator_test.h"
