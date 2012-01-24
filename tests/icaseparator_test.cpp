@@ -8,7 +8,7 @@ using namespace arma;
 
 BOOST_AUTO_TEST_SUITE(icaseparator)
 
-BOOST_AUTO_TEST_CASE(separator_multiplying)
+BOOST_AUTO_TEST_CASE(separating)
 {
     mat A = 2 * eye(3, 3);
 
