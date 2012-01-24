@@ -6,7 +6,7 @@ using namespace arma;
 #include <boost/test/unit_test.hpp>
 #include "icaseparator.h"
 
-BOOST_AUTO_TEST_SUITE(icaseparator_suite)
+BOOST_AUTO_TEST_SUITE(icaseparator)
 
 BOOST_AUTO_TEST_CASE(separator_multiplying)
 {

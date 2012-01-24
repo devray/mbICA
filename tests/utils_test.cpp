@@ -6,7 +6,7 @@ using namespace arma;
 #include <boost/test/unit_test.hpp>
 #include "utils.h"
 
-BOOST_AUTO_TEST_SUITE(utils_suite)
+BOOST_AUTO_TEST_SUITE(utils)
 
 // matSqrt test
 BOOST_AUTO_TEST_CASE(sqrt_square_equal)
