@@ -26,7 +26,6 @@ BOOST_PARAMETER_NAME(wh)
 BOOST_PARAMETER_NAME(guessMatrix)
 BOOST_PARAMETER_NAME(epsilon)
 BOOST_PARAMETER_NAME(maxIterations)
-BOOST_PARAMETER_NAME(mu)
 
 // base class for FastICA
 class FastICA_impl {
@@ -37,8 +36,7 @@ protected:
           Wh_(args[_wh | arma::mat()]),
           guess_(args[_guessMatrix | arma::mat()]),
           epsilon_(args[_epsilon | def::EPSILON]),
-          maxIterations_(args[_maxIterations | def::MAX_ITERATIONS]),
-          mu_(args[_mu | def::MU])
+          maxIterations_(args[_maxIterations | def::MAX_ITERATIONS])
     {
         srand(time(NULL));
     }
@@ -68,7 +66,6 @@ protected:
     arma::mat guess_;
     double epsilon_;
     int maxIterations_;
-    double mu_;
 };
 
 template<class UsedNonl = nonlinearities::Pow<3>, class Stabilization = NoStabilization >
@@ -77,7 +74,6 @@ public:
     BOOST_PARAMETER_CONSTRUCTOR(
             FastICA, (FastICA_impl), mbica::tag
             , (optional
-               (mu, *)
                (maxIterations, *)
                (epsilon, *)
                (guessMatrix, *)
@@ -85,7 +81,7 @@ public:
                (wh, *)
             ))
 
-    ICASeparator operator()(arma::mat X, int nIC = -1) {
+    ICASeparator operator()(arma::mat X, int nIC = -1, double mu = def::MU) {
         if(Wh_.is_empty() || dWh_.is_empty()) {
             arma::mat E;
             arma::vec D;
@@ -110,7 +106,7 @@ public:
             B = orth(arma::randu<arma::mat>(X.n_rows, nIC) - 0.5);
 
         arma::mat B_old = arma::zeros<arma::mat>(X.n_rows, nIC);
-        Stabilization stabilize(epsilon_, mu_, maxIterations_);
+        Stabilization stabilize(epsilon_, mu, maxIterations_);
 
         double k = 1.0 / X.n_cols;
         int i;
@@ -129,13 +125,13 @@ public:
 
             arma::mat Y = X.t() * B;
             UsedNonl nl(Y);
-            if(mu_ == 1.0) {
+            if(mu == 1.0) {
                 B = k * (X * nl.G()) - k * (arma::repmat(arma::sum(nl.dG()), X.n_rows, 1)) % B;
                 std::cout << B;
             } else {
                 arma::mat Beta = sum(Y % nl.G());
                 arma::mat D = diagmat(1.0 / (Beta - sum(nl.dG())));
-                B += mu_ * (B * (Y.t() * nl.G() - diagmat(Beta)) * D);
+                B += mu * (B * (Y.t() * nl.G() - diagmat(Beta)) * D);
             }
         }
         std::cout << "Number of iters: " << i << std::endl;

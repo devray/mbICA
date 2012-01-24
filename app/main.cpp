@@ -22,7 +22,7 @@ int main(int argc, char *argv[]){
     A.load(argv[1], raw_ascii);
     A = join_rows(A.cols(0, 6), A.cols(9, 15));
     A = A.t();
-    ICASeparator icas = FastICA<nonlinearities::Gauss<>, WithStabilization>(_mu = mu)(A);
+    ICASeparator icas = FastICA<nonlinearities::Gauss<>, WithStabilization>()(A, -1, mu);
     mat(icas(A).t()).save("result_" + string(argv[1]), raw_ascii);
 
     return 0;
