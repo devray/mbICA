@@ -14,9 +14,9 @@ SOURCES += \
 HEADERS += \
     whitening_test.h
 
-LIBS += -lmbica -lboost_unit_test_framework
-linux:LIBS += -larmadillo
-win32:LIBS += ../lib/blas_win32_MT.lib ../lib/lapack_win32_MT.lib
+LIBS += -lmbica
+linux:LIBS += -larmadillo -lboost_unit_test_framework
+win32:LIBS += ../lib/blas_win32_MT.lib ../lib/lapack_win32_MT.lib ../lib/libboost_unit_test_framework-mgw34-mt.lib
 
 INCLUDEPATH += ../include
 QMAKE_LIBDIR += ../lib
