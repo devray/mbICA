@@ -1,6 +1,7 @@
 #include <armadillo>
 #include <cstdlib>
 #include <iostream>
+#include <string>
 #include "mbica.h"
 
 using namespace std;
@@ -19,9 +20,10 @@ int main(int argc, char *argv[]){
     cout << "Using mu = " << mu << endl;
     mat A;
     A.load(argv[1], raw_ascii);
+    A = join_rows(A.cols(0, 6), A.cols(9, 15));
     A = A.t();
-    ICASeparator icas = FastICA<nonlinearities::Pow<3>, WithStabilization>(_mu = mu)(A,15);
-    mat(icas(A).t()).save("result.txt", raw_ascii);
+    ICASeparator icas = FastICA<nonlinearities::Gauss<>, WithStabilization>(_mu = mu)(A);
+    mat(icas(A).t()).save("result_" + string(argv[1]), raw_ascii);
 
     return 0;
 }
