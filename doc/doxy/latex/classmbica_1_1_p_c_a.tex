@@ -1,0 +1,55 @@
+\hypertarget{classmbica_1_1_p_c_a}{
+\section{mbica::PCA Class Reference}
+\label{classmbica_1_1_p_c_a}\index{mbica::PCA@{mbica::PCA}}
+}
+
+
+{\ttfamily \#include $<$utils.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmbica_1_1_p_c_a_a8ea74ed9daf02d1fed1ec0ecf478fa8d}{operator()} (const arma::mat \&X, arma::mat \&E, arma::vec \&D)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class implementing primary component analisis (\hyperlink{classmbica_1_1_p_c_a}{PCA}). 
+
+Definition at line 30 of file utils.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmbica_1_1_p_c_a_a8ea74ed9daf02d1fed1ec0ecf478fa8d}{
+\index{mbica::PCA@{mbica::PCA}!operator()@{operator()}}
+\index{operator()@{operator()}!mbica::PCA@{mbica::PCA}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}void mbica::PCA::operator() (
+\begin{DoxyParamCaption}
+\item[{const arma::mat \&}]{X, }
+\item[{arma::mat \&}]{E, }
+\item[{arma::vec \&}]{D}
+\end{DoxyParamCaption}
+)}}
+\label{classmbica_1_1_p_c_a_a8ea74ed9daf02d1fed1ec0ecf478fa8d}
+Function that calculaates transformation matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & Matrix with data on which \hyperlink{classmbica_1_1_p_c_a}{PCA} will be calculated. Samples should be in columns. \\
+\hline
+{\em E} & Output parameter which returns matrix with eigenvectorsin rows, which can be used as transofmration matrix. \\
+\hline
+{\em D} & Output parameter which returns vector with eigenvalues. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 15 of file utils.cpp.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{utils_8h}{utils.h}\item 
+source/\hyperlink{utils_8cpp}{utils.cpp}\end{DoxyCompactItemize}

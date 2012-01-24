@@ -1,0 +1,286 @@
+\hypertarget{classmbica_1_1_fast_i_c_a__impl}{
+\section{mbica::FastICA\_\-impl Class Reference}
+\label{classmbica_1_1_fast_i_c_a__impl}\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}}
+}
+
+
+{\ttfamily \#include $<$mbica.h$>$}
+
+Inheritance diagram for mbica::FastICA\_\-impl:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmbica_1_1_fast_i_c_a__impl}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmbica_1_1_fast_i_c_a__impl_acb8a677bfc9539222d05eab68107277c}{setWhiteningMatrix} (arma::mat Wh, arma::mat dWh)
+\item 
+void \hyperlink{classmbica_1_1_fast_i_c_a__impl_a7bf245e4d88340d45b3ad1319e00724e}{resetWhiteningMatrix} ()
+\begin{DoxyCompactList}\small\item\em Method to reset whitening and dewhitening matrixes. \item\end{DoxyCompactList}\item 
+const arma::mat \& \hyperlink{classmbica_1_1_fast_i_c_a__impl_a62157ddfa4b2a1fc86a4e490be53a949}{whiteningMatrix} () const 
+\begin{DoxyCompactList}\small\item\em Getter of whitening matrix. \item\end{DoxyCompactList}\item 
+const arma::mat \& \hyperlink{classmbica_1_1_fast_i_c_a__impl_a820ef876ee9adf2c59102109e8eab248}{dewhiteningMatrix} () const 
+\begin{DoxyCompactList}\small\item\em Getter of dewhitening matrix. \item\end{DoxyCompactList}\item 
+void \hyperlink{classmbica_1_1_fast_i_c_a__impl_a5dede124e00318eda54452811e1c7ab1}{setEpsilon} (double epsilon)
+\item 
+double \hyperlink{classmbica_1_1_fast_i_c_a__impl_a7e8502efec4f08a8eb2be77bca7e0c91}{epsilon} () const 
+\begin{DoxyCompactList}\small\item\em Getter of epsilon value. \item\end{DoxyCompactList}\item 
+void \hyperlink{classmbica_1_1_fast_i_c_a__impl_a1468646012fcdc60f70e3c632a1b9450}{setMaxIterations} (int max)
+\begin{DoxyCompactList}\small\item\em Setter of maximal number of iterations. \item\end{DoxyCompactList}\item 
+int \hyperlink{classmbica_1_1_fast_i_c_a__impl_a47416533583d0e17176b6ef82316658a}{maxIterations} () const 
+\begin{DoxyCompactList}\small\item\em Getter of maximal number of iterations. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class ArgumentPack $>$ }\\\hyperlink{classmbica_1_1_fast_i_c_a__impl_ade2c64db507233e92c06be6f178a1287}{FastICA\_\-impl} (ArgumentPack const \&args)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+arma::mat \hyperlink{classmbica_1_1_fast_i_c_a__impl_ab1733850788ffd4118563e443cbd12bf}{dWh\_\-}
+\item 
+arma::mat \hyperlink{classmbica_1_1_fast_i_c_a__impl_a11bb92ab13c2a5d86ee57368a0c6f37b}{Wh\_\-}
+\item 
+arma::mat \hyperlink{classmbica_1_1_fast_i_c_a__impl_a44e32ead6a78e76dadddd503732bed29}{guess\_\-}
+\item 
+double \hyperlink{classmbica_1_1_fast_i_c_a__impl_a286ddf4b806607c6b1ff2c01638b562f}{epsilon\_\-}
+\item 
+int \hyperlink{classmbica_1_1_fast_i_c_a__impl_a33dc4e8644810412d57896fbcd9aed91}{maxIterations\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for \hyperlink{classmbica_1_1_fast_i_c_a}{FastICA}.
+
+\begin{DoxyNote}{Note}
+It can be only created by \hyperlink{classmbica_1_1_fast_i_c_a}{FastICA} and other derivered classes. 
+\end{DoxyNote}
+
+
+Definition at line 51 of file mbica.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_ade2c64db507233e92c06be6f178a1287}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!FastICA\_\-impl@{FastICA\_\-impl}}
+\index{FastICA\_\-impl@{FastICA\_\-impl}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{FastICA\_\-impl}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ArgumentPack $>$ mbica::FastICA\_\-impl::FastICA\_\-impl (
+\begin{DoxyParamCaption}
+\item[{ArgumentPack const \&}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_ade2c64db507233e92c06be6f178a1287}
+Constructor
+
+Special constructor required by Boost\_\-Parameter to provide named parameters in \hyperlink{classmbica_1_1_fast_i_c_a}{FastICA} class.
+
+args Argument provided by Boost\_\-Parameter 
+
+Definition at line 63 of file mbica.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a820ef876ee9adf2c59102109e8eab248}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!dewhiteningMatrix@{dewhiteningMatrix}}
+\index{dewhiteningMatrix@{dewhiteningMatrix}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{dewhiteningMatrix}]{\setlength{\rightskip}{0pt plus 5cm}const arma::mat\& mbica::FastICA\_\-impl::dewhiteningMatrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a820ef876ee9adf2c59102109e8eab248}
+
+
+Getter of dewhitening matrix. 
+
+
+
+Definition at line 96 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a7e8502efec4f08a8eb2be77bca7e0c91}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!epsilon@{epsilon}}
+\index{epsilon@{epsilon}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{epsilon}]{\setlength{\rightskip}{0pt plus 5cm}double mbica::FastICA\_\-impl::epsilon (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a7e8502efec4f08a8eb2be77bca7e0c91}
+
+
+Getter of epsilon value. 
+
+
+
+Definition at line 113 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a47416533583d0e17176b6ef82316658a}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!maxIterations@{maxIterations}}
+\index{maxIterations@{maxIterations}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{maxIterations}]{\setlength{\rightskip}{0pt plus 5cm}int mbica::FastICA\_\-impl::maxIterations (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a47416533583d0e17176b6ef82316658a}
+
+
+Getter of maximal number of iterations. 
+
+
+
+Definition at line 123 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a7bf245e4d88340d45b3ad1319e00724e}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!resetWhiteningMatrix@{resetWhiteningMatrix}}
+\index{resetWhiteningMatrix@{resetWhiteningMatrix}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{resetWhiteningMatrix}]{\setlength{\rightskip}{0pt plus 5cm}void mbica::FastICA\_\-impl::resetWhiteningMatrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a7bf245e4d88340d45b3ad1319e00724e}
+
+
+Method to reset whitening and dewhitening matrixes. 
+
+
+
+Definition at line 85 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a5dede124e00318eda54452811e1c7ab1}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!setEpsilon@{setEpsilon}}
+\index{setEpsilon@{setEpsilon}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{setEpsilon}]{\setlength{\rightskip}{0pt plus 5cm}void mbica::FastICA\_\-impl::setEpsilon (
+\begin{DoxyParamCaption}
+\item[{double}]{epsilon}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a5dede124e00318eda54452811e1c7ab1}
+Setter of epsilon.
+
+Epsilon is a parameter that says how fast iterations will converge. The smaller epsilon is the harder to converge.
+
+
+\begin{DoxyParams}{Parameters}
+{\em epsilon} & New value of epsilon. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 108 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a1468646012fcdc60f70e3c632a1b9450}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!setMaxIterations@{setMaxIterations}}
+\index{setMaxIterations@{setMaxIterations}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{setMaxIterations}]{\setlength{\rightskip}{0pt plus 5cm}void mbica::FastICA\_\-impl::setMaxIterations (
+\begin{DoxyParamCaption}
+\item[{int}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a1468646012fcdc60f70e3c632a1b9450}
+
+
+Setter of maximal number of iterations. 
+
+
+
+Definition at line 118 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_acb8a677bfc9539222d05eab68107277c}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!setWhiteningMatrix@{setWhiteningMatrix}}
+\index{setWhiteningMatrix@{setWhiteningMatrix}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{setWhiteningMatrix}]{\setlength{\rightskip}{0pt plus 5cm}void mbica::FastICA\_\-impl::setWhiteningMatrix (
+\begin{DoxyParamCaption}
+\item[{arma::mat}]{Wh, }
+\item[{arma::mat}]{dWh}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_acb8a677bfc9539222d05eab68107277c}
+Setter of whitening/dewhitening matrixes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em Wh} & \hyperlink{classmbica_1_1_whitening}{Whitening} matrix. \\
+\hline
+{\em dWh} & Dewhitening matrix. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 79 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a62157ddfa4b2a1fc86a4e490be53a949}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!whiteningMatrix@{whiteningMatrix}}
+\index{whiteningMatrix@{whiteningMatrix}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{whiteningMatrix}]{\setlength{\rightskip}{0pt plus 5cm}const arma::mat\& mbica::FastICA\_\-impl::whiteningMatrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a62157ddfa4b2a1fc86a4e490be53a949}
+
+
+Getter of whitening matrix. 
+
+
+
+Definition at line 91 of file mbica.h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_ab1733850788ffd4118563e443cbd12bf}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!dWh\_\-@{dWh\_\-}}
+\index{dWh\_\-@{dWh\_\-}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{dWh\_\-}]{\setlength{\rightskip}{0pt plus 5cm}arma::mat {\bf mbica::FastICA\_\-impl::dWh\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_ab1733850788ffd4118563e443cbd12bf}
+
+
+Definition at line 128 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a286ddf4b806607c6b1ff2c01638b562f}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!epsilon\_\-@{epsilon\_\-}}
+\index{epsilon\_\-@{epsilon\_\-}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{epsilon\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf mbica::FastICA\_\-impl::epsilon\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a286ddf4b806607c6b1ff2c01638b562f}
+
+
+Definition at line 131 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a44e32ead6a78e76dadddd503732bed29}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!guess\_\-@{guess\_\-}}
+\index{guess\_\-@{guess\_\-}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{guess\_\-}]{\setlength{\rightskip}{0pt plus 5cm}arma::mat {\bf mbica::FastICA\_\-impl::guess\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a44e32ead6a78e76dadddd503732bed29}
+
+
+Definition at line 130 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a33dc4e8644810412d57896fbcd9aed91}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!maxIterations\_\-@{maxIterations\_\-}}
+\index{maxIterations\_\-@{maxIterations\_\-}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{maxIterations\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf mbica::FastICA\_\-impl::maxIterations\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a33dc4e8644810412d57896fbcd9aed91}
+
+
+Definition at line 132 of file mbica.h.
+
+\hypertarget{classmbica_1_1_fast_i_c_a__impl_a11bb92ab13c2a5d86ee57368a0c6f37b}{
+\index{mbica::FastICA\_\-impl@{mbica::FastICA\_\-impl}!Wh\_\-@{Wh\_\-}}
+\index{Wh\_\-@{Wh\_\-}!mbica::FastICA_impl@{mbica::FastICA\_\-impl}}
+\subsubsection[{Wh\_\-}]{\setlength{\rightskip}{0pt plus 5cm}arma::mat {\bf mbica::FastICA\_\-impl::Wh\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classmbica_1_1_fast_i_c_a__impl_a11bb92ab13c2a5d86ee57368a0c6f37b}
+
+
+Definition at line 129 of file mbica.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{mbica_8h}{mbica.h}\end{DoxyCompactItemize}

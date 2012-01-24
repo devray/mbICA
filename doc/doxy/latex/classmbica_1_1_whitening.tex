@@ -1,0 +1,58 @@
+\hypertarget{classmbica_1_1_whitening}{
+\section{mbica::Whitening Class Reference}
+\label{classmbica_1_1_whitening}\index{mbica::Whitening@{mbica::Whitening}}
+}
+
+
+{\ttfamily \#include $<$utils.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classmbica_1_1_whitening_ac1aa3e9d13bbdbd4e10c08bd90bb3b02}{operator()} (const arma::mat \&E, const arma::vec \&D, arma::mat \&Wh, arma::mat \&dWh)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class implementing whitening transformation 
+
+Definition at line 45 of file utils.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmbica_1_1_whitening_ac1aa3e9d13bbdbd4e10c08bd90bb3b02}{
+\index{mbica::Whitening@{mbica::Whitening}!operator()@{operator()}}
+\index{operator()@{operator()}!mbica::Whitening@{mbica::Whitening}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}void mbica::Whitening::operator() (
+\begin{DoxyParamCaption}
+\item[{const arma::mat \&}]{E, }
+\item[{const arma::vec \&}]{D, }
+\item[{arma::mat \&}]{Wh, }
+\item[{arma::mat \&}]{dWh}
+\end{DoxyParamCaption}
+)}}
+\label{classmbica_1_1_whitening_ac1aa3e9d13bbdbd4e10c08bd90bb3b02}
+Function that calculates whitening/dewhitening matrixes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em E} & Matrix with eigenvectors in rows (from \hyperlink{classmbica_1_1_p_c_a}{PCA}). \\
+\hline
+{\em D} & Vector with eigenvalues (from \hyperlink{classmbica_1_1_p_c_a}{PCA}) \\
+\hline
+{\em Wh} & Output parameter which returns whitening matrix. \\
+\hline
+{\em dWh} & Output parameter which returns dewhitening matrix. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 31 of file utils.cpp.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{utils_8h}{utils.h}\item 
+source/\hyperlink{utils_8cpp}{utils.cpp}\end{DoxyCompactItemize}

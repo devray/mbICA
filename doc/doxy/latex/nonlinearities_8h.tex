@@ -1,0 +1,46 @@
+\hypertarget{nonlinearities_8h}{
+\section{include/nonlinearities.h File Reference}
+\label{nonlinearities_8h}\index{include/nonlinearities.h@{include/nonlinearities.h}}
+}
+{\ttfamily \#include $<$armadillo$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmbica_1_1nonlinearities_1_1_nonlinearity}{mbica::nonlinearities::Nonlinearity}
+\item 
+class \hyperlink{classmbica_1_1nonlinearities_1_1_pow}{mbica::nonlinearities::Pow$<$ a $>$}
+\item 
+class \hyperlink{classmbica_1_1nonlinearities_1_1_tan_h}{mbica::nonlinearities::TanH$<$ a, b $>$}
+\item 
+class \hyperlink{classmbica_1_1nonlinearities_1_1_gauss}{mbica::nonlinearities::Gauss$<$ a, b $>$}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacembica}{mbica}
+\item 
+namespace \hyperlink{namespacembica_1_1nonlinearities}{mbica::nonlinearities}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef Pow$<$ 2 $>$ \hyperlink{namespacembica_1_1nonlinearities_ad8a629ac3ac19cf239529022ebd90d07}{mbica::nonlinearities::Skew}
+\begin{DoxyCompactList}\small\item\em Typedef to provide compatibility with Octave packet. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Pawel Zubrycki $<$\href{mailto:P.Zubrycki@stud.elka.pw.edu.pl}{\tt P.Zubrycki@stud.elka.pw.edu.pl}$>$ 
+
+Stanisław Janikowski $<$\href{mailto:S.A.Janikowski@stud.elka.pw.edu.pl}{\tt S.A.Janikowski@stud.elka.pw.edu.pl}$>$
+\end{DoxyAuthor}
+\hypertarget{utils_8h_DESCRIPTION}{}\subsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
+File with preimplemented nonlinearities used in FastICA algorithm.
+
+\begin{DoxyNote}{Note}
+New nonlinearites don't have to inherit from Nonlinearity class. They just have to provide G() and dG() methods. 
+\end{DoxyNote}
+
+
+Definition in file \hyperlink{nonlinearities_8h_source}{nonlinearities.h}.
+
