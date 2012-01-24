@@ -10,10 +10,10 @@ TEMPLATE = app
 CONFIG += console
 
 SOURCES += \
-    test.cpp
+    test.cpp \
+    utils_test.cpp
 
 HEADERS += \
-    utils_test.h \
     nonlinearity_test.h \
     policies_test.h \
     icaseparator_test.h
