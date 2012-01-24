@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(unmixing)
     // K is now a shufled eye matrix
     mat K = inv(A) * (abs(sep2.getA()) >= 0.2);
 
-    // K should be shuffled eye if
+    // K should be shuffled eye if just columns are shuffled in both matrixes
     BOOST_CHECK_SMALL(mat(abs(sep2.getA() * sep2.getW() - eye(3,3))).max(), 0.01);
 
     //Checking if matrixes are similar
