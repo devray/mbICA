@@ -4,7 +4,8 @@
 QT -= core \
     gui
 
-TARGET = ../lib/mbica
+TARGET = mbica
+DESTDIR = ../lib
 
 TEMPLATE = lib
 CONFIG += staticlib
