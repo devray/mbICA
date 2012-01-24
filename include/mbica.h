@@ -47,17 +47,33 @@ public:
         dWh_ = dWh;
     }
 
-    void unsetWhiteningMatrix() {
+    void resetWhiteningMatrix() {
         Wh_.reset();
         dWh_.reset();
+    }
+
+    const arma::mat &whiteningMatrix() const {
+        return Wh_;
+    }
+
+    const arma::mat &dewhiteningMatrix() const {
+        return dWh_;
     }
 
     void setEpsilon(double epsilon) {
         epsilon_ = epsilon;
     }
 
+    double epsilon() const {
+        return epsilon_;
+    }
+
     void setMaxIterations(int max) {
         maxIterations_ = max;
+    }
+
+    int maxIterations() const {
+        return maxIterations_;
     }
 
 protected:
