@@ -11,7 +11,6 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    icaseparator.cpp \
     nonlinearities.cpp \
     utils.cpp \
     policies.cpp \
