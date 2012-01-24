@@ -10,9 +10,10 @@ TEMPLATE = app
 CONFIG += console
 
 SOURCES += \
-    pca_test.cpp
+    test.cpp
 HEADERS += \
-    whitening_test.h
+    utils_test.h \
+    nonlinearity_test.h
 
 LIBS += -lmbica
 linux:LIBS += -larmadillo -lboost_unit_test_framework

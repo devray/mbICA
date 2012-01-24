@@ -1,11 +1,6 @@
 #include "utils.h"
-#include <armadillo>
-#include <cmath>
-using namespace arma;
 
-#define BOOST_TEST_MODULE PCA_tests
-#include <boost/test/included/unit_test.hpp>
-
+// PCA tests
 BOOST_AUTO_TEST_CASE(eye_identity)
 {
     mat E;
@@ -43,4 +38,17 @@ BOOST_AUTO_TEST_CASE(dimension_reduction)
     BOOST_CHECK(D.n_elem == 1);
 }
 
-#include "whitening_test.h"
+// Whitening tests
+BOOST_AUTO_TEST_CASE( identity_covariance )
+{
+    mat E, Wh, dWh;
+    vec D;
+    for(int i=0; i<100; ++i){
+        mat Y,X = randu<mat>(10, 9);
+        mbica::PCA()(X,E,D);
+        mbica::Whitening()(E,D,Wh,dWh);
+        Y = X * Wh;
+        BOOST_CHECK(mat(abs(cov(Y)-eye(Y.n_rows,Y.n_cols))).max() < 0.00001f);
+    }
+}
+
