@@ -1,5 +1,19 @@
 #include "utils.h"
 
+// matSqrt test
+BOOST_AUTO_TEST_CASE(sqrt_square_equal)
+{
+    mat X;
+    X << 1 << 2 << endr <<
+         3 << 4 << endr <<
+         6 << 6 << endr;
+
+    mat C = cov(X);
+    mat Csqrt = mbica::matSqrt(C);
+
+    BOOST_CHECK_SMALL(mat(abs(Csqrt * Csqrt - C)).max(), 0.000001);
+}
+
 // PCA tests
 BOOST_AUTO_TEST_CASE(eye_identity)
 {
