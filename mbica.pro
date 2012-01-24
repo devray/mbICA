@@ -1,26 +1,10 @@
-# -------------------------------------------------
-# Project created by QtCreator 2012-01-04T21:23:34
-# -------------------------------------------------
-QT -= core \
-    gui
-TARGET = mbica
 
-# TEMPLATE = lib
-# CONFIG += staticlib
-SOURCES += \
-    icaseparator.cpp \
-    nonlinearities.cpp \
-    main.cpp \
-    utils.cpp \
-    policies.cpp
-    #tests/pca_test.cpp \
-    #tests/whitening_test.cpp
-HEADERS += mbica.h \
-    icaseparator.h \
-    nonlinearities.h \
-    utils.h \
-    policies.h
-LIBS += -larmadillo -lboost_unit_test_framework
+TEMPLATE = subdirs
+SUBDIRS = library \
+		app \
+                tests
 
-DEFINES += ARMA_USE_LAPACK \
-    BOOST_PARAMETER_MAX_ARITY=7
+library.subdir = source
+app.depends = library
+tests.depends = library
+
