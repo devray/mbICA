@@ -4,6 +4,7 @@
 #include <armadillo>
 #include <boost/parameter.hpp>
 #include <iostream>
+#include <ctime>
 
 #include "icaseparator.h"
 #include "nonlinearities.h"

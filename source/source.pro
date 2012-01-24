@@ -13,7 +13,8 @@ SOURCES += \
     icaseparator.cpp \
     nonlinearities.cpp \
     utils.cpp \
-    policies.cpp
+    policies.cpp \
+
 HEADERS += ../include/mbica.h \
     ../include/icaseparator.h \
     ../include/nonlinearities.h \
@@ -21,7 +22,9 @@ HEADERS += ../include/mbica.h \
     ../include/policies.h
 
 INCLUDEPATH += ../include
-LIBS += -larmadillo -lboost_unit_test_framework
+LIBS += -lboost_unit_test_framework
+win32:LIBS += blas_win32_MT.lib lapack_win32_MT.lib
+linux:LIBS += -larmadillo
 
 DEFINES += ARMA_USE_LAPACK \
     BOOST_PARAMETER_MAX_ARITY=7
