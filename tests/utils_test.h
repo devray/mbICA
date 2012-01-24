@@ -61,8 +61,8 @@ BOOST_AUTO_TEST_CASE( identity_covariance )
         mat Y,X = randu<mat>(10, 9);
         mbica::PCA()(X,E,D);
         mbica::Whitening()(E,D,Wh,dWh);
-        Y = X * Wh;
-        BOOST_CHECK(mat(abs(cov(Y)-eye(Y.n_rows,Y.n_cols))).max() < 0.00001f);
+        Y = Wh * X;
+        BOOST_CHECK(mat(abs(cov(Y)-eye(Y.n_cols,Y.n_cols))).max() < 0.00001f);
     }
 }
 
