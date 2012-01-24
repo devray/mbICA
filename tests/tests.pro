@@ -10,8 +10,9 @@ TEMPLATE = app
 CONFIG += console
 
 SOURCES += \
-    pca_test.cpp \
-    whitening_test.cpp
+    pca_test.cpp
+HEADERS += \
+    whitening_test.h
 
 LIBS += -lmbica -larmadillo -lboost_unit_test_framework
 

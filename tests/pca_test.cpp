@@ -42,3 +42,5 @@ BOOST_AUTO_TEST_CASE(dimension_reduction)
 
     BOOST_CHECK(D.n_elem == 1);
 }
+
+#include "whitening_test.h"
