@@ -39,6 +39,7 @@ protected:
           maxIterations_(args[_maxIterations | def::MAX_ITERATIONS]),
           mu_(args[_mu | def::MU])
     {
+        srand(time(NULL));
     }
 
 public:
@@ -129,7 +130,7 @@ public:
             UsedNonl nl(Y);
             if(mu_ == 1.0) {
                 B = k * (X * nl.G()) - k * (arma::repmat(arma::sum(nl.dG()), X.n_rows, 1)) % B;
-                //std::cout << k * (arma::repmat(arma::sum(nl.dG()), X.n_rows, 1));
+                std::cout << B;
             } else {
                 arma::mat Beta = sum(Y % nl.G());
                 arma::mat D = diagmat(1.0 / (Beta - sum(nl.dG())));
