@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
 
     // Signals are in columns so we have to transpose to get signals in rows
     A = A.t();
-    ICASeparator icas = FastICA<nonlinearities::Gauss<>, WithStabilization>()(A, -1, mu);
+    ICASeparator icas = FastICA<nonlinearities::Gauss<>, WithStabilization>(_maxIterations=1000)(A, -1, mu);
 
     // Saving results
     mat(icas(A).t()).save("result_" + string(argv[1]), raw_ascii);
