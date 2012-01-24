@@ -22,6 +22,13 @@ BOOST_AUTO_TEST_CASE(sqrt_square_equal)
     BOOST_CHECK_SMALL(mat(abs(Csqrt * Csqrt - C)).max(), 0.000001);
 }
 
+BOOST_AUTO_TEST_CASE(eye_sqrt)
+{
+    mat X = mbica::matSqrt(eye(3, 3));
+
+    BOOST_CHECK_SMALL(mat(abs(X - eye(3, 3))).max(), 0.000001);
+}
+
 // PCA tests
 BOOST_AUTO_TEST_CASE(eye_identity)
 {
