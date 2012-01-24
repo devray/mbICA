@@ -14,7 +14,7 @@ public:
 class WithStabilization {
 public:
     WithStabilization(double &epsilon, double &mu, int &maxIterations)
-        : epsilon_(epsilon), mu_(mu), stroke_(0.0), maxIterations_(maxIterations), reducedStep_(false)  {}
+        : epsilon_(epsilon), mu_(mu), stroke_(0.0), maxIterations_(maxIterations), reducedStep_(false), inStroke_(false)  {}
 
     void operator()(int iteration, const arma::mat &B, const arma::mat &B_old);
 
@@ -25,6 +25,7 @@ private:
     double stroke_;
     int maxIterations_;
     bool reducedStep_;
+    bool inStroke_;
 };
 }
 
