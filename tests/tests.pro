@@ -11,12 +11,10 @@ CONFIG += console
 
 SOURCES += \
     test.cpp \
-    utils_test.cpp
-
-HEADERS += \
-    nonlinearity_test.h \
-    policies_test.h \
-    icaseparator_test.h
+    utils_test.cpp \
+    policies_test.cpp \
+    nonlinearity_test.cpp \
+    icaseparator_test.cpp
 
 LIBS += -lmbica
 unix:LIBS += -larmadillo -lboost_unit_test_framework

@@ -6,6 +6,8 @@ using namespace arma;
 #include <boost/test/unit_test.hpp>
 #include "utils.h"
 
+BOOST_AUTO_TEST_SUITE(utils_suite)
+
 // matSqrt test
 BOOST_AUTO_TEST_CASE(sqrt_square_equal)
 {
@@ -72,4 +74,6 @@ BOOST_AUTO_TEST_CASE( identity_covariance )
         BOOST_CHECK_SMALL(mat(abs(cov(Y.t())-eye(Y.n_rows,Y.n_rows))).max(), 0.000001);
     }
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 

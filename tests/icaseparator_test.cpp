@@ -1,4 +1,12 @@
+#include <armadillo>
+#include <cmath>
+using namespace arma;
+
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 #include "icaseparator.h"
+
+BOOST_AUTO_TEST_SUITE(icaseparator_suite)
 
 BOOST_AUTO_TEST_CASE(separator_multiplying)
 {
@@ -17,3 +25,6 @@ BOOST_AUTO_TEST_CASE(separator_multiplying)
     // should throw because of bad D size
     BOOST_CHECK_THROW(sep(D), std::logic_error);
 }
+
+BOOST_AUTO_TEST_SUITE_END()
+
