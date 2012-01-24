@@ -142,7 +142,7 @@ public:
             UsedNonl nl(Y);
             if(mu == 1.0) {
                 B = k * (X * nl.G()) - k * (arma::repmat(arma::sum(nl.dG()), X.n_rows, 1)) % B;
-                std::cout << B;
+                //std::cout << B;
             } else {
                 arma::mat Beta = sum(Y % nl.G());
                 arma::mat D = diagmat(1.0 / (Beta - sum(nl.dG())));
