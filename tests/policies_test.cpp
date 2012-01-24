@@ -6,6 +6,6 @@ using namespace arma;
 #include <boost/test/unit_test.hpp>
 #include "policies.h"
 
-BOOST_AUTO_TEST_SUITE(policies_suite)
+BOOST_AUTO_TEST_SUITE(policies)
 
 BOOST_AUTO_TEST_SUITE_END()
