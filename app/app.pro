@@ -4,7 +4,8 @@
 QT -= core \
     gui
 
-TARGET = ../bin/mbica
+TARGET = mbica
+DESTDIR = ../bin
 
 TEMPLATE = app 
 CONFIG += console
@@ -12,7 +13,9 @@ CONFIG += console
 SOURCES += \
     main.cpp \
 
-LIBS += -lmbica -larmadillo
+LIBS += -lmbica
+linux:LIBS += -larmadillo
+win32:LIBS += ../lib/blas_win32_MT.lib ../lib/lapack_win32_MT.lib
 
 INCLUDEPATH += ../include
 QMAKE_LIBDIR += ../lib
