@@ -18,8 +18,8 @@ void PCA::operator()(const arma::mat &X, arma::mat &E, arma::vec &D) {
     eig_sym(D, E, C);
 
     unsigned stopIx = D.n_elem, startIx=0;
-    for(; stopIx > 0 && D[stopIx-1] < math::eps(); --stopIx);
-    for(; startIx < stopIx && D[startIx] < math::eps(); ++startIx);
+    for(; stopIx > 0 && D[stopIx-1] < 1.0e-10/*math::eps()*/; --stopIx);
+    for(; startIx < stopIx && D[startIx] < 1.0e-10/*math::eps()*/; ++startIx);
 
     if(stopIx != D.n_elem || startIx != 0) {
         D = D.subvec(startIx, stopIx-1);
