@@ -1,10 +1,3 @@
-#include "utils.h"
-#include <armadillo>
-using namespace arma;
-
-#define BOOST_TEST_MODULE Whitening_tests
-#define BOOST_T
-#include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_CASE( identity_covariance )
 {
