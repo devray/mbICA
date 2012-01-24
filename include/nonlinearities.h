@@ -43,8 +43,9 @@ class Gauss: public Nonlinearity{
 public:
     Gauss(arma::mat X){
         double c = double(a)/b;
-        g_ = X % arma::exp(-0.5 * c * arma::pow(X, 2));
-        dg_ = (1 - c * arma::pow(X, 2)) % g_;
+        arma::mat ex = arma::exp(-0.5 * c * arma::pow(X, 2));
+        g_ = X % ex;
+        dg_ = (1 - c * arma::pow(X, 2)) % ex;
     }
 };
 
