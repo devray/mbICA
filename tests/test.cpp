@@ -2,7 +2,7 @@
 #include <cmath>
 using namespace arma;
 
-#define BOOST_TEST_MODULE PCA_tests
+#define BOOST_TEST_MODULE mbica_tests
 #include <boost/test/included/unit_test.hpp>
 
 #include "utils_test.h"
