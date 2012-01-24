@@ -11,12 +11,13 @@ CONFIG += console
 
 SOURCES += \
     test.cpp
+
 HEADERS += \
     utils_test.h \
     nonlinearity_test.h
 
 LIBS += -lmbica
-linux:LIBS += -larmadillo -lboost_unit_test_framework
+unix:LIBS += -larmadillo -lboost_unit_test_framework
 win32:LIBS += ../lib/blas_win32_MT.lib ../lib/lapack_win32_MT.lib ../lib/libboost_unit_test_framework-mgw34-mt.lib
 
 INCLUDEPATH += ../include

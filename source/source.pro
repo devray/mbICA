@@ -25,7 +25,7 @@ HEADERS += ../include/mbica.h \
 INCLUDEPATH += ../include
 LIBS += -lboost_unit_test_framework
 win32:LIBS += blas_win32_MT.lib lapack_win32_MT.lib
-linux:LIBS += -larmadillo
+unix:LIBS += -larmadillo
 
 DEFINES += ARMA_USE_LAPACK \
     BOOST_PARAMETER_MAX_ARITY=7

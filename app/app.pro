@@ -14,7 +14,7 @@ SOURCES += \
     main.cpp \
 
 LIBS += -lmbica
-linux:LIBS += -larmadillo
+unix:LIBS += -larmadillo
 win32:LIBS += ../lib/blas_win32_MT.lib ../lib/lapack_win32_MT.lib
 
 INCLUDEPATH += ../include
