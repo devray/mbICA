@@ -26,18 +26,21 @@ BOOST_AUTO_TEST_CASE(unmixing)
     mbica::ICASeparator sep2 =
             mbica::FastICA<mbica::nonlinearities::Gauss<1, 1>, mbica::WithStabilization>()(X);
 
-    cout << "Real A = \n" << (A >= 0.5)  << endl;
+    mat Ap = sep2.getA();
+    // normalization
+    A = A / repmat(sqrt(sum(pow(A, 2))), A.n_rows, 1);
+    Ap = Ap / repmat(sqrt(sum(pow(Ap, 2))), Ap.n_rows, 1);
+    cout << "Real A = \n" << A  << endl;
     // Ugly way of getting found mixing matrix to former mixing matrix.
-    cout << "Found A = \n" << (abs(sep2.getA()) >= 0.2) << endl;
+    cout << "Found A = \n" << Ap << endl; //(abs(sep2.getA()) >= 0.2) << endl;
     // K is now a shufled eye matrix
-    mat K = inv(A) * (abs(sep2.getA()) >= 0.2);
+    mat K = (abs(inv(A) * Ap));
 
     // K should be shuffled eye if just columns are shuffled in both matrixes
     BOOST_CHECK_SMALL(mat(abs(sep2.getA() * sep2.getW() - eye(3,3))).max(), 0.01);
 
     //Checking if matrixes are similar
-    BOOST_WARN_SMALL(sum(sum(K % K)) - 3.0 , 0.00001);
-    BOOST_WARN_SMALL(sum(sum(K)) - 3.0 , 0.00001);
+    BOOST_CHECK_SMALL(sum(sum(pow(K, 2))) - 3.0 , 0.1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
