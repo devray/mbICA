@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(unmixing)
     BOOST_CHECK_SMALL(mat(abs(sep2.getA() * sep2.getW() - eye(3,3))).max(), 0.01);
 
     //Checking if matrixes are similar
-    BOOST_CHECK_SMALL(sum(sum(pow(K, 2))) - 3.0 , 0.1);
+    BOOST_CHECK_SMALL(sum(sum(K > 0.1)) - 3.0 , 0.1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
