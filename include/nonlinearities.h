@@ -17,6 +17,7 @@
 #include<armadillo>
 
 namespace mbica {
+/// namespace for available nonlinearities
 namespace nonlinearities {
 
 /**

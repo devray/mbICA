@@ -23,7 +23,7 @@
 #include "policies.h"
 #include "utils.h"
 
-
+/// main library namespace
 namespace mbica {
 
 /// default values for epsilon, max iterations and mu

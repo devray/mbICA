@@ -3,7 +3,7 @@ function plot_icas ( x, prefix = "result_")
 	nSamples = max(size(x))
 
 	for i=1:nIC
-		plot((0:(nSamples-1))/128, x(i, :))
+		plot((0:(nSamples-1))/128, x(:,i))
 		xlim([0 (nSamples-1)/128])
 		print(strcat(prefix, num2str(i), ".png"), "-dpng")
 	end

@@ -11,7 +11,6 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    nonlinearities.cpp \
     utils.cpp \
     policies.cpp \
 
