@@ -1,0 +1,142 @@
+\hypertarget{classmbica_1_1_i_c_a_separator}{
+\section{mbica::ICASeparator Class Reference}
+\label{classmbica_1_1_i_c_a_separator}\index{mbica::ICASeparator@{mbica::ICASeparator}}
+}
+
+
+{\ttfamily \#include $<$icaseparator.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmbica_1_1_i_c_a_separator_ab1d0874ff943f2b3c04888768c032eb1}{ICASeparator} (arma::mat A, arma::mat W)
+\item 
+arma::mat \hyperlink{classmbica_1_1_i_c_a_separator_a1aa13483c85507e86ac9fe4465e709f7}{operator()} (arma::mat X)
+\item 
+arma::mat \hyperlink{classmbica_1_1_i_c_a_separator_aa6e102581e99e56bee0b21cf6be8fbe0}{mixSignals} (arma::mat S)
+\item 
+const arma::mat \& \hyperlink{classmbica_1_1_i_c_a_separator_a2ae50bb7ba10c9e177dc8d3d7e54dfdf}{getA} () const 
+\begin{DoxyCompactList}\small\item\em Getter of mixing matrix. \item\end{DoxyCompactList}\item 
+const arma::mat \& \hyperlink{classmbica_1_1_i_c_a_separator_ac9cc05d9ca89d9bdab7ba0dc9b9e3a69}{getW} () const 
+\begin{DoxyCompactList}\small\item\em Getter of unmixing matrix. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that provides easy way to count independent components. 
+
+Definition at line 20 of file icaseparator.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmbica_1_1_i_c_a_separator_ab1d0874ff943f2b3c04888768c032eb1}{
+\index{mbica::ICASeparator@{mbica::ICASeparator}!ICASeparator@{ICASeparator}}
+\index{ICASeparator@{ICASeparator}!mbica::ICASeparator@{mbica::ICASeparator}}
+\subsubsection[{ICASeparator}]{\setlength{\rightskip}{0pt plus 5cm}mbica::ICASeparator::ICASeparator (
+\begin{DoxyParamCaption}
+\item[{arma::mat}]{A, }
+\item[{arma::mat}]{W}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_i_c_a_separator_ab1d0874ff943f2b3c04888768c032eb1}
+Constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Mixing matrix. \\
+\hline
+{\em W} & Unmixing matrix. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 29 of file icaseparator.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmbica_1_1_i_c_a_separator_a2ae50bb7ba10c9e177dc8d3d7e54dfdf}{
+\index{mbica::ICASeparator@{mbica::ICASeparator}!getA@{getA}}
+\index{getA@{getA}!mbica::ICASeparator@{mbica::ICASeparator}}
+\subsubsection[{getA}]{\setlength{\rightskip}{0pt plus 5cm}const arma::mat\& mbica::ICASeparator::getA (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_i_c_a_separator_a2ae50bb7ba10c9e177dc8d3d7e54dfdf}
+
+
+Getter of mixing matrix. 
+
+
+
+Definition at line 56 of file icaseparator.h.
+
+\hypertarget{classmbica_1_1_i_c_a_separator_ac9cc05d9ca89d9bdab7ba0dc9b9e3a69}{
+\index{mbica::ICASeparator@{mbica::ICASeparator}!getW@{getW}}
+\index{getW@{getW}!mbica::ICASeparator@{mbica::ICASeparator}}
+\subsubsection[{getW}]{\setlength{\rightskip}{0pt plus 5cm}const arma::mat\& mbica::ICASeparator::getW (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_i_c_a_separator_ac9cc05d9ca89d9bdab7ba0dc9b9e3a69}
+
+
+Getter of unmixing matrix. 
+
+
+
+Definition at line 61 of file icaseparator.h.
+
+\hypertarget{classmbica_1_1_i_c_a_separator_aa6e102581e99e56bee0b21cf6be8fbe0}{
+\index{mbica::ICASeparator@{mbica::ICASeparator}!mixSignals@{mixSignals}}
+\index{mixSignals@{mixSignals}!mbica::ICASeparator@{mbica::ICASeparator}}
+\subsubsection[{mixSignals}]{\setlength{\rightskip}{0pt plus 5cm}arma::mat mbica::ICASeparator::mixSignals (
+\begin{DoxyParamCaption}
+\item[{arma::mat}]{S}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_i_c_a_separator_aa6e102581e99e56bee0b21cf6be8fbe0}
+Method that mixes given signals
+
+
+\begin{DoxyParams}{Parameters}
+{\em S} & Matrix to be mixed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix with mixed data. 
+\end{DoxyReturn}
+
+
+Definition at line 51 of file icaseparator.h.
+
+\hypertarget{classmbica_1_1_i_c_a_separator_a1aa13483c85507e86ac9fe4465e709f7}{
+\index{mbica::ICASeparator@{mbica::ICASeparator}!operator()@{operator()}}
+\index{operator()@{operator()}!mbica::ICASeparator@{mbica::ICASeparator}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}arma::mat mbica::ICASeparator::operator() (
+\begin{DoxyParamCaption}
+\item[{arma::mat}]{X}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_i_c_a_separator_a1aa13483c85507e86ac9fe4465e709f7}
+Method that unmix given signal.
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & Matrix with mixed signal. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix with unmixed signal. 
+\end{DoxyReturn}
+
+
+Definition at line 41 of file icaseparator.h.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{icaseparator_8h}{icaseparator.h}\end{DoxyCompactItemize}

@@ -1,0 +1,86 @@
+\hypertarget{classmbica_1_1_with_stabilization}{
+\section{mbica::WithStabilization Class Reference}
+\label{classmbica_1_1_with_stabilization}\index{mbica::WithStabilization@{mbica::WithStabilization}}
+}
+
+
+{\ttfamily \#include $<$policies.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmbica_1_1_with_stabilization_afb3dfb7a9fbf384310ebce07832a42ca}{WithStabilization} (double \&epsilon, double \&mu, int \&maxIterations)
+\item 
+void \hyperlink{classmbica_1_1_with_stabilization_a82c7f03cff00d96b790236a5212229d0}{operator()} (int iteration, const arma::mat \&B, const arma::mat \&B\_\-old)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that provides stabilization. 
+
+Definition at line 30 of file policies.h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmbica_1_1_with_stabilization_afb3dfb7a9fbf384310ebce07832a42ca}{
+\index{mbica::WithStabilization@{mbica::WithStabilization}!WithStabilization@{WithStabilization}}
+\index{WithStabilization@{WithStabilization}!mbica::WithStabilization@{mbica::WithStabilization}}
+\subsubsection[{WithStabilization}]{\setlength{\rightskip}{0pt plus 5cm}mbica::WithStabilization::WithStabilization (
+\begin{DoxyParamCaption}
+\item[{double \&}]{epsilon, }
+\item[{double \&}]{mu, }
+\item[{int \&}]{maxIterations}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classmbica_1_1_with_stabilization_afb3dfb7a9fbf384310ebce07832a42ca}
+Constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em epsilon} & Reference to epsilon stored in \hyperlink{classmbica_1_1_fast_i_c_a}{FastICA} class. \\
+\hline
+{\em mu} & Reference to current mu value from FastICA::operator() method. \\
+\hline
+{\em maxIterations} & Reference to value stored in \hyperlink{classmbica_1_1_fast_i_c_a}{FastICA} class. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 39 of file policies.h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmbica_1_1_with_stabilization_a82c7f03cff00d96b790236a5212229d0}{
+\index{mbica::WithStabilization@{mbica::WithStabilization}!operator()@{operator()}}
+\index{operator()@{operator()}!mbica::WithStabilization@{mbica::WithStabilization}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}void WithStabilization::operator() (
+\begin{DoxyParamCaption}
+\item[{int}]{iteration, }
+\item[{const arma::mat \&}]{B, }
+\item[{const arma::mat \&}]{B\_\-old}
+\end{DoxyParamCaption}
+)}}
+\label{classmbica_1_1_with_stabilization_a82c7f03cff00d96b790236a5212229d0}
+Method that stabilize calcualtions.
+
+
+\begin{DoxyParams}{Parameters}
+{\em iteration} & Current iteration number in main loop of algorithm. \\
+\hline
+{\em B} & Current estimation. \\
+\hline
+{\em B\_\-old} & Previous estimation. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file policies.cpp.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{policies_8h}{policies.h}\item 
+source/\hyperlink{policies_8cpp}{policies.cpp}\end{DoxyCompactItemize}

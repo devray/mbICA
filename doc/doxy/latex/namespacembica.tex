@@ -1,0 +1,138 @@
+\hypertarget{namespacembica}{
+\section{mbica Namespace Reference}
+\label{namespacembica}\index{mbica@{mbica}}
+}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacembica_1_1def}{def}
+
+
+\begin{DoxyCompactList}\small\item\em default values for epsilon, max iterations and mu \item\end{DoxyCompactList}
+
+\item 
+namespace \hyperlink{namespacembica_1_1nonlinearities}{nonlinearities}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmbica_1_1_i_c_a_separator}{ICASeparator}
+\item 
+class \hyperlink{classmbica_1_1_fast_i_c_a__impl}{FastICA\_\-impl}
+\item 
+class \hyperlink{classmbica_1_1_fast_i_c_a}{FastICA}
+\item 
+class \hyperlink{classmbica_1_1_no_stabilization}{NoStabilization}
+\item 
+class \hyperlink{classmbica_1_1_with_stabilization}{WithStabilization}
+\item 
+class \hyperlink{classmbica_1_1_p_c_a}{PCA}
+\item 
+class \hyperlink{classmbica_1_1_whitening}{Whitening}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+arma::mat \hyperlink{namespacembica_aaae76245138008e4273a14d7420dda92}{matSqrt} (const arma::mat \&X)
+\item 
+mat \hyperlink{namespacembica_a9c3ca1cf4775304c759dd9f4cc6399a5}{orth} (const mat \&A)
+\item 
+mat \hyperlink{namespacembica_a0e4a65ca8a44628381f8a4d2c3842575}{remmean} (const mat \&X)
+\item 
+arma::mat \hyperlink{namespacembica_aa8d8022a6cb5803e1d3a53f6f52fd8bb}{orth} (const arma::mat \&A)
+\item 
+arma::mat \hyperlink{namespacembica_ac306e82333221407e02b0fbf41dcbe4d}{remmean} (const arma::mat \&X)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespacembica_aaae76245138008e4273a14d7420dda92}{
+\index{mbica@{mbica}!matSqrt@{matSqrt}}
+\index{matSqrt@{matSqrt}!mbica@{mbica}}
+\subsubsection[{matSqrt}]{\setlength{\rightskip}{0pt plus 5cm}arma::mat mbica::matSqrt (
+\begin{DoxyParamCaption}
+\item[{const arma::mat \&}]{X}
+\end{DoxyParamCaption}
+)}}
+\label{namespacembica_aaae76245138008e4273a14d7420dda92}
+Function to calculate square root of a matrix using diagonalization.
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & Matrix from which will be calculated square root. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix which will be equal X whan multiplied by itself. 
+\end{DoxyReturn}
+
+
+Definition at line 7 of file utils.cpp.
+
+\hypertarget{namespacembica_a9c3ca1cf4775304c759dd9f4cc6399a5}{
+\index{mbica@{mbica}!orth@{orth}}
+\index{orth@{orth}!mbica@{mbica}}
+\subsubsection[{orth}]{\setlength{\rightskip}{0pt plus 5cm}mat mbica::orth (
+\begin{DoxyParamCaption}
+\item[{const mat \&}]{A}
+\end{DoxyParamCaption}
+)}}
+\label{namespacembica_a9c3ca1cf4775304c759dd9f4cc6399a5}
+
+
+Definition at line 38 of file utils.cpp.
+
+\hypertarget{namespacembica_aa8d8022a6cb5803e1d3a53f6f52fd8bb}{
+\index{mbica@{mbica}!orth@{orth}}
+\index{orth@{orth}!mbica@{mbica}}
+\subsubsection[{orth}]{\setlength{\rightskip}{0pt plus 5cm}arma::mat mbica::orth (
+\begin{DoxyParamCaption}
+\item[{const arma::mat \&}]{A}
+\end{DoxyParamCaption}
+)}}
+\label{namespacembica_aa8d8022a6cb5803e1d3a53f6f52fd8bb}
+Function to orthonormalize a matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Matrix to orthonormalize. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Orthonormalized matrix from matrix A. 
+\end{DoxyReturn}
+\hypertarget{namespacembica_a0e4a65ca8a44628381f8a4d2c3842575}{
+\index{mbica@{mbica}!remmean@{remmean}}
+\index{remmean@{remmean}!mbica@{mbica}}
+\subsubsection[{remmean}]{\setlength{\rightskip}{0pt plus 5cm}mat mbica::remmean (
+\begin{DoxyParamCaption}
+\item[{const mat \&}]{X}
+\end{DoxyParamCaption}
+)}}
+\label{namespacembica_a0e4a65ca8a44628381f8a4d2c3842575}
+
+
+Definition at line 56 of file utils.cpp.
+
+\hypertarget{namespacembica_ac306e82333221407e02b0fbf41dcbe4d}{
+\index{mbica@{mbica}!remmean@{remmean}}
+\index{remmean@{remmean}!mbica@{mbica}}
+\subsubsection[{remmean}]{\setlength{\rightskip}{0pt plus 5cm}arma::mat mbica::remmean (
+\begin{DoxyParamCaption}
+\item[{const arma::mat \&}]{X}
+\end{DoxyParamCaption}
+)}}
+\label{namespacembica_ac306e82333221407e02b0fbf41dcbe4d}
+Function used to remove mean from data.
+
+\begin{DoxyNote}{Note}
+Signals have to be in rows, which means samples have to be in columns.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em X} & Matrix with data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix with signals which mean values equal 0. 
+\end{DoxyReturn}
